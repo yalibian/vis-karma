@@ -1,0 +1,8 @@
+#+TITLE: Plan Karma-Vis
+
+1. 静态页面的部署
+   1. 搭建 racket server
+
+2. data json的部署
+
+3. JS前端的优化

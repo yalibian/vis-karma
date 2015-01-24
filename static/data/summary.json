@@ -1,0 +1,113 @@
+[
+{
+"chart":3,
+"type":"Dark",
+"color":"#39080b",
+"user": 71872,
+"beers":[
+				{
+					"name":"Oatmeal Stout",
+					"data" : 11000,
+					"color":"#39080b"
+				},
+				{
+					"name":"American Stout",
+					"data" : 10000,
+					"color":"#391e08"
+				},
+
+				{
+					"name": "Russian Imperial Stout",
+					"data" : 9000,
+					"color":"#230507"
+				},
+				
+				{
+					"name":"American Black Ale",
+					"data" : 9000,
+					"color":"#660e14"
+				},
+				{
+					"name":"Imperial Stout",
+					"data" : 8100,
+					"color":"#4f0b0f"
+				}
+				
+				
+			]
+},
+{
+"chart":4,
+"type":"Medium",
+"color":"#CB6C00",
+"user":139999,
+"beers":[
+				{
+					"name": "Imperial IPA",
+					"data" : 12370,
+					"color":"#d37400"
+
+				},
+				{
+					"name":"American IPA",
+					"data" : 12057,
+					"color":"#874a00"
+				},
+				{
+					"name":"American Strong Ale",
+					"data" : 6870,
+					"color":"#a05800"
+				},
+				{
+					"name":"American Porter",
+					"data" : 6255,
+					"color":"#ba6600"
+				},
+				{
+					"name":"Americam Brown Ale",
+					"data" : 5951,
+					"color":"#ed8200"
+				}
+
+				
+			]
+},
+
+{
+"chart":5,
+"type":"Light",
+"color":"#FDD978",
+"user":98525,
+"beers":[
+				{
+					"name": "American Pale Ale (APA)",
+					"data" : 6077,
+					"color": "#fee799" 
+
+				},
+				{
+					"name":"Saison",
+					"data" : 5349,
+					"color":"#fef3cc"
+
+				},
+				{
+					"name":"Tripel",
+					"data" : 5305,
+					"color":"#fedb66"
+				},
+				{
+					"name":"Hefeweizen",
+					"data" : 4862,
+					"color":"#fee180"
+				},
+				{
+					"name":"Witbier",
+					"data" : 4801,
+					"color":"#feedb2"
+				}
+
+				
+			]
+}
+]
