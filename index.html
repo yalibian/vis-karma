@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Deed Viz | Discover Karma Rule, &amp; Make Good Karma!</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="static/css/normalize.css">
+        <link rel="stylesheet" href="static/css/bootstrap.css">
+        <link rel="stylesheet" href="static/css/main.css">
+        <link rel="stylesheet" href="static/css/rickshaw.css">
+        <link rel="stylesheet" href="static/css/rickshaw.min.css">
+        <script src="static/js/libs/modernizr-2.6.2.min.js"></script>
+    </head>
+
+    <body>
+
+        <!-- Add your site or application content here -->
+
+		<!-- Title / about / Credits -->
+        <header>
+            <div class="wrapper-page">
+                <!-- beer viz logo here -->
+                <p>DEEDVIZ | Discover Karma Rule, &amp; Make Good Karma!</p>
+                <nav>
+                    <ul>
+                        <li id="lust-about"><a href="staticresources/BeerViz_Report_Final.pdf" target="_blank">About</a></li>
+                        <li id="list-credit"><a href="#">Credits</a></li>
+                    </ul>
+                </nav>
+            </div>
+			
+            <div id ="wrapper-credit">
+
+                <h3>Our research and inspiration came from the following:</h3>
+                <p>Data</p>
+                
+				<p>Research</p>
+                
+				<p>Photo Credit</p>
+                
+                <p class="close"><a href="#">[Close]</a></p>
+
+            </div>
+        </header>
+	
+
+		<!-- to know -->
+        <!-- input type="hidden" value="" id='beerType'-->
+
+       
+		<!-- explore sililar beers by appeance/taste/aroma/overall  -->
+        <section id="usePref">
+            <div class="wrapper-page">
+                <article>
+                    <h2>Explore Karma by:</h2>
+                    <ul id="list-usePref">
+                        <!-- li data-usePref="overall" class="active">Overall</li -->
+                        <li data-usePref="good">Good Deeds</li>
+                        <li data-usePref="bad">Bad Deeds</li>
+                    </ul>
+
+                </article>
+            </div> 
+        </section>
+
+	<!-- viz of beer -->
+        <section class="context-viz active" id="category">
+
+            <!-- div id="editbox">This is editbox</div -->
+
+            <aside class="style" id="deed-style">
+                <div class="styleHead">
+                    <h3>Deed Styles</h3>
+                </div>
+                <ul class="list-style">
+                </ul>
+            </aside>
+
+            <aside class="style" id="karma-style">
+                <div class="styleHead">
+                    <h3>Karma Styles</h3>
+                </div>
+                <ul class="list-style">
+                </ul>
+            </aside>
+
+            <!-- deeds visualization using svg by d3 -->
+		    <div class="wrapper-page">
+			    <article>
+				    <div id="wrapper-viz">
+				    </div>
+			    </article>      
+		    </div>
+        
+        </section>
+
+
+	    <!-- histogram plot / about the data -->
+        <section class="active" id="summary">
+            <article>
+                
+                    <div id="wrapper-summary">
+                        <h2>About the Data</h2>
+                        <h3>Popularity and top beer styles are based on the number of users who rated the beer.</h3>
+                        <ul id="summary-charts">
+                            <li>
+                                <div id="chart1"></div>
+                            </li>
+                             <li>
+                                <div id="chart2"></div>
+                            </li>
+                             <li>
+                                <div id="chart3"></div>
+                            </li>
+                             <li>
+                                <div id="chart4"></div>
+                            </li>
+                             <li>
+                                <div id="chart5"></div>
+                            </li>      
+                        </ul>
+                    </div>
+               
+            </article>
+                
+        </section>
+		
+		<!-- aout the author -->
+        <footer>
+           <h4>Handcrafted with <span class="icon-entypo">&hearts;</span> by:</h4>
+            <ul id="list-authors">
+                <li>
+                    Bialy
+                </li>
+            </ul>
+        </footer>
+
+        <script src="static/js/libs/jquery-1.9.1.min.js"></script>
+        <script src="static/js/libs/bootstrap.js"></script>
+        <!-- script src="js/refer/jquery-ui.min.js"></script -->
+        <script src="static/js/libs/bootbox.min.js"></script>
+        <script src="static/js/libs/d3.js"></script>
+        <script src="static/js/packages.js"></script>
+        <script src="static/js/libs/highcharts.js"></script>
+        <script src="static/js/libs/exporting.js"></script>
+        <script src="static/js/main.js"></script>
+        <script src="static/js/summary.js"></script>
+
+    </body>
+</html>

@@ -1,110 +1,51 @@
 #lang racket
 
-(require db)
+; 实现功能： 维护 两个　json 文件： relation / karma
+; 对relation karma 从 文件中读取到内存
+; 更新信息到文件中
+;
 
-; Overall representation of our virtual bulletin board
-(struct board (db))
 
-; A category is, for the moment, just its board and id
-(struct category (board id))
+(require json
+         racket/file)
 
-; A particular post carries along an associated board and a unique id
-(struct post (board id))
+(provide (all-defined-out))
 
-; Initialize the board from the DB, creating it if needed.
-(define (initialize-board! home)
-  (define db (sqlite3-connect #:database home #:mode 'create))
-  (initialize-tables db)
-  (board db))
+; file-path -> js-expr
+(define (read-json-from-file file-path)
+  (string->jsexpr (file->string file-path)))
 
-; Initialize database tables if not present
-(define (initialize-tables db)
-  (unless (table-exists? db "posts")
-    (query-exec db 
-		(string-append "CREATE TABLE posts "
-			       "(id INTEGER PRIMARY KEY, category INTEGER, "
-			       "title TEXT, body TEXT, email TEXT)")))
-  (unless (table-exists? db "categories")
-    (query-exec db
-		(string-append "CREATE TABLE categories "
-			       "(id INTEGER PRIMARY KEY, name TEXT)"))))
+; write js-expression into a file
+(define (write-json-to-file file-path js-expr)
+  (call-with-output-file file-path
+    (lambda (out)
+      (write (jsexpr->string js-expr) out))
+    #:exists 'replace))
 
-; Check for the existence of a post / category in the DB
-(define (post-exists? a-post)
-  (if (query-maybe-row (board-db (post-board a-post))
-		       "SELECT * FROM posts WHERE id = ?"
-		       (post-id a-post))
-      #t
-      #f))
 
-(define (category-exists? a-category)
-  (if (query-maybe-row (board-db (category-board a-category))
-		       "SELECT * FROM categories WHERE id = ?"
-		       (category-id a-category))
-      #t
-      #f))
 
-; The following functions extract information on a post
-(define (post-category a-post)
-  (category (post-board a-post)
-	    (query-value (board-db (post-board a-post))
-			 "SELECT category FROM posts WHERE id = ?"
-			 (post-id a-post))))
+;;--------------------------------------------------------------;;
+;; relation
+;;--------------------------------------------------------------;;
 
-(define (post-title a-post)
-  (query-value (board-db (post-board a-post))
-	       "SELECT title FROM posts WHERE id = ?"
-	       (post-id a-post)))
+(define relation-path "data/relation.json")
 
-(define (post-body a-post)
-  (query-value (board-db (post-board a-post))
-	       "SELECT body FROM posts WHERE id = ?"
-	       (post-id a-post)))
+(define RELATION (read-json-from-file relation-path))
 
-(define (post-email a-post)
-  (query-value (board-db (post-board a-post))
-	       "SELECT email FROM posts WHERE id = ?"
-	       (post-id a-post)))
+(define (update-relation js-expr)
+  (set! RELATION js-expr)
+  (write-json-to-file karma-path RELATION))
 
-; These extract info on a board
-(define (board-posts a-board)
-  (map (lambda (id) (post a-board id))
-       (query-list (board-db a-board)
-		   "SELECT id FROM posts")))
 
-(define (board-categories a-board)
-  (map (lambda (id) (category a-board id))
-       (query-list (board-db a-board)
-		   "SELECT id FROM categories")))
-  
-; Extract corresponding info on categories
-(define (category-name a-category)
-  (query-value (board-db (category-board a-category))
-	       "SELECT name FROM categories WHERE id = ?"
-	       (category-id a-category)))
 
-(define (category-posts a-category)
-  (map (lambda (id) (post (category-board a-category) id))
-       (query-list (board-db (category-board a-category))
-		   "SELECT id FROM posts WHERE category = ?"
-		   (category-id a-category))))
+;;--------------------------------------------------------------;;
+;; karma
+;;--------------------------------------------------------------;;
 
-; Add a category to a board
-(define (insert-category! a-board name)
-  (query-exec (board-db a-board)
-	      "INSERT INTO categories (name) VALUES (?)"
-	      name))
+(define karma-path "data/karma.json")
 
-; Add a new post
-(define (insert-post! a-board category title body email)
-  (query-exec (board-db a-board)
-	      (string-append "INSERT INTO posts (category, title, "
-			     "body, email) VALUES (?, ?, ?, ?)")
-	      (category-id category) title body email))
+(define KARMA (read-json-from-file karma-path))
 
-(provide board? board-posts board-categories insert-category!
-	 category? category category-exists? category-id
-	 category-name category-posts
-	 post? post post-exists? post-id post-category
-	 post-title post-body post-email
-	 initialize-board!)
+(define (update-karma js-expr)
+  (set! KARMA js-expr)
+  (write-json-to-file karma-path KARMA))
