@@ -2,6 +2,11 @@
 
 1. 静态页面的部署
    1. 搭建 racket server
+   2. static-path 和 dispatch 有冲突。。。
+   3. 更改 使用servlet的条件 路径在 servlet 之下
+   4. 是不是 serve/servlet 函数里面其他关键字的配置有问题？
+      要不然为什么一直出现这种 找不到静态路径文件的问题，明明是全部 static 路径下面的文件都找不到。
+   5. 进行 dispatch 和 static-files-path 的 测试
 
 2. data json的部署
 

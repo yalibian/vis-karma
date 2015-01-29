@@ -50,7 +50,7 @@
   'test-now)
 
 ; response karma.json
-(define (get-karma request)
+(define (gejkt-karma request)
   (response/json KARMA))
 
 ; update karma.json
