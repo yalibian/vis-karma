@@ -8,6 +8,25 @@
       要不然为什么一直出现这种 找不到静态路径文件的问题，明明是全部 static 路径下面的文件都找不到。
    5. 进行 dispatch 和 static-files-path 的 测试
 
+      * 测试 静态文件路径 - 2015年03月03日
+        * 实现dispatch 调试， 主要的问题还是 static 路径下面的东西加载不进去。。。。
+        * 所有的static路径，都被映射到 static/test.html，看来肯定是dispatch 或者是 static的问题。
+        * 另外还有文件加载时的路径问题，还没有搞定。data/json的文件都无法加载。
+        * 果然 静态文件，不经过 servlet，只是在静态文件里面出现了错误。 静态文件的关联出现问题。
+          不对，是到了 dispatch 里面的 else，然后结果就变成 hello world 了，并不是 static 下面的 test.html
+          说明， static-path 根本就没有用，或者是servlet-regexp 范围锁定的太大。
+          错误原因： extra-files-paths 路径问题，使用错误，或者是因为 servlet-regexp的问题。
+          不知道是加载的哪一个 index.html karma-vis/index.html or karma-vis/static/index.html?
+          竟然，加载的是 static里面的 index.html 简直是不知道为什么！！！！  这样的话，static/index.html 里面的各静态文件的路径都需要修改。
+          当修改 static/index.html 里面的相对路径以后，可以正确显示静态文件。关键是，这个时候，我还把 servlet-regexp给关闭了。
+          如果打开的话？
+            默认主页是 karma-vis/index.html, 说明 dispatch 将 static的东西给覆盖掉了。
+        * When you use web-server/dispatch with servle/servlet, you almost always want to use the #:servlet-regexp argument with the value "" to capture all top-level requests. However, make sure you don't include an "else" in your rules if you are also serving static files, or else the filesystem server will never see the requests.
+
+
 2. data json的部署
+
+   1. 几个函数的实现。get-relation/get-karma/set-relation/set-karma
+
 
 3. JS前端的优化
