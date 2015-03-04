@@ -627,14 +627,19 @@ BEERVIZ = (function(){
     bootbox.dialog({
       title: d.version.word,
       //message: "<form><input type='text' value="+d.version.intro+"></form>",
-      message: d.version.intro,
+      // change massage into text
+      // message: d.version.intro,
+      message:'<textarea id="karma-content" rows="15" cols="97">' + d.version.intro + '</textarea>',
+
       buttons: {
         save: {
-          label: "save",
+          label: "Save",
           className: "btn-success",
           callback: function() {
-            console.log("save karma content");
-            console.log(d.version.intro);
+            console.log("save karma content: ");
+            console.log($('#karma-content').val());
+            // save the content into js.json and backend data model.
+            //console.log(d.version.intro);
           }
         },
 
