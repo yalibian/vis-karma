@@ -24,9 +24,17 @@
         * When you use web-server/dispatch with servle/servlet, you almost always want to use the #:servlet-regexp argument with the value "" to capture all top-level requests. However, make sure you don't include an "else" in your rules if you are also serving static files, or else the filesystem server will never see the requests.
 
 
-2. data json的部署
+1. data json的部署
 
    1. 几个函数的实现。get-relation/get-karma/set-relation/set-karma
+      主要是数据类型之间的换算，首先是将 .json 文件加载到内存中，如果有修改，就回写到文件中，如果没有，就还是原来的。前端使用form来修改set-karma 数据，对于relation数据，先不进行。先修改 karma 数据。 先对前端中的js进行修改实现再说。
+      进行加载的时候，还是按照原来的方式进行加载，只是在set-karma的时候，需要后端可以进行修改到file中。
+      使用ajax更新json到后端。在 bootbox中使用 ajax 同步json数据。
+   2. bootbox
+      bootbox中btn的颜色的设置和名字有关系。不同的名字，比如 success会有不同的button颜色。其中btn和className有关
+      对于karma中某个实体进行内容编辑的时候，有3个btn，save，edit，以及cancel。弹出对话框时，内容不可编辑，点击edit后，内容可编辑，随后点击save，即可进行保存。save 是对js中变量进行修改，然后当relation修改时，相应的ajax传递到后端。（对于bootbox不熟悉，将edit删除，只有save和cancel两项，内容。）
+   3. Ajax 测试
+      将bootbox应用到d3中，然后使用bootbox中的save修改json，然后，将json传递到后端。
 
 
 3. JS前端的优化
