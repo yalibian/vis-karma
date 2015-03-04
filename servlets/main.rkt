@@ -22,27 +22,15 @@
 ; Setup request handlers for various URLs
 (define-values (servlet-dispatch servlet-url)
   (dispatch-rules
-   ;[("") home-view]
    [("get-relation") get-relation]
    [("set-relation") set-relation]
    [("get-karma") get-karma]
-   [("set-karma") set-karma]
-   ;[else hello-world]
-   ))
+   [("set-karma") set-karma]))
 
 ; 每个 http 请求 都会经过这里，static的也一样
 (define (start request)
   ;(display "in start request")
   (servlet-dispatch request))
-
-(define (home-view request)
-  (display "home-view")
-  (newline)
-  (response/full
-   200 #"Okay"
-   (current-seconds) TEXT/HTML-MIME-TYPE
-   empty
-   (list (string->bytes/utf-8 (include-template "../index.html")))))
 
 
 ; response relaiton.json
@@ -72,5 +60,4 @@
                  (current-seconds) #"application/json"
                  empty
                  (list (jsexpr->string js-expr))))
-
 
