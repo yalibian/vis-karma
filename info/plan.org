@@ -24,7 +24,7 @@
         * When you use web-server/dispatch with servle/servlet, you almost always want to use the #:servlet-regexp argument with the value "" to capture all top-level requests. However, make sure you don't include an "else" in your rules if you are also serving static files, or else the filesystem server will never see the requests.
 
 
-1. data json的部署
+1. karma json的部署
 
    1. 几个函数的实现。get-relation/get-karma/set-relation/set-karma
       主要是数据类型之间的换算，首先是将 .json 文件加载到内存中，如果有修改，就回写到文件中，如果没有，就还是原来的。前端使用form来修改set-karma 数据，对于relation数据，先不进行。先修改 karma 数据。 先对前端中的js进行修改实现再说。
@@ -34,6 +34,7 @@
     karma中的version 有两种，一种是正，一种是负，所以，要区分一下，再进行更新。
     返现 ajax post 不行的原因是 我使用的 racket web server 的 dispatch-values API 不够熟悉，今天将 dispatch 测试程序完成，并将 karma 传递到后端。
     添加 #:method "post" 到 dispatch-values 里面，使得对于 set-karma 的请求可以通过 dispatch-values 分发到 set-karma servlet 上面。
+
    3. 最后更新前端传递过来的的 JSon 数据到Json文本中
       使用 racket json 来写入json 文件中。
       出现两种错误：其一： 写回后端的 JSon 数据和原来的JSon数据不同，写回的数据是一个对象（对象的每个属性分别为 0，1，2... 的属性名），而原来的数据是一个数组。
@@ -45,4 +46,9 @@
       对于生成的 karma.json 还有一点问题，现在是按照 string 的方式，将数据写入的，所以形成的格式，还是不行，现在要将 string转换成 js-expr，然后再写入进去。
       对于json的读写，要使用 write-json 而不是 write string 的形式。
 
-2. JS前端的优化
+2. relation 前端交互优化
+
+   1. d3.js 中 实现 两个元素拖动交互
+      当 拖动一个 x-node 到一个 y-node 上的时候，弹出对话框，对两者的关系进行编辑。如果有关系，可以删除，如果没有关系，可以添加。以及显示两者之间的对比度。
+
+3. relation json 部署
