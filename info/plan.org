@@ -42,5 +42,7 @@
       第一个问题是由 racket 路径 (current-directory) 引起的，现在已经修改完成，然后又引入了一个新的问题： 写回的数据是乱码，可能是因为 post-data 是 bytes 类型的数据引起的，现在使用 bytes->string/utf-8 进行修改。 果然是这个原因引起的乱码，现在已经修改完成。
 
       现在只剩下第二个问题，也就是，将 js 传递到后端的json数据进行修改，将 js object 修改成 js array。
+      对于生成的 karma.json 还有一点问题，现在是按照 string 的方式，将数据写入的，所以形成的格式，还是不行，现在要将 string转换成 js-expr，然后再写入进去。
+      对于json的读写，要使用 write-json 而不是 write string 的形式。
 
 2. JS前端的优化

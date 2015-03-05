@@ -19,7 +19,7 @@ BEERVIZ = (function(){
    ** Module:: Global Initialization
    *****************************************/
   var init = function(){
-    console.log('basic page initializations');
+    // console.log('basic page initializations');
 
     evtHandler();
     //initAttributeFilter();
@@ -40,7 +40,7 @@ BEERVIZ = (function(){
 
     var subPlotData;
     var code = id.slice(0,2);
-    //console.log(code);
+    // console.log(code);
     // Added to display the block only when user hovers
     if (code !='DF') {
       $('#wrapper-details').css("display", "block" );
@@ -110,7 +110,7 @@ BEERVIZ = (function(){
 
       resetClass(jQuery(this), 'active');
       jQuery(this).addClass('active');
-      //console.log("colorSelector: ",colorSelector);
+      // console.log("colorSelector: ",colorSelector);
       triggerViz(styleVal);
 
     });
@@ -120,7 +120,7 @@ BEERVIZ = (function(){
   // viz the svg and put sketch into html
   var triggerViz = function(styleVal) {
 
-    console.log('in triggerViz');
+    // console.log('in triggerViz');
     d3Example(userBeerType, styleVal);
 
     jQuery('.context-viz').show();
@@ -137,8 +137,8 @@ BEERVIZ = (function(){
   var karma; // represent the deed.json
   var d3Example = function(colorVal, styleVal) {
 
-    console.log("in d3Example");
-    console.log("color Value:", colorVal, "style Value:", styleVal);
+    // console.log("in d3Example");
+    // console.log("color Value:", colorVal, "style Value:", styleVal);
     var w = 1100,
 	h = 1000,
 	rx = w / 2 - 100,
@@ -179,7 +179,7 @@ BEERVIZ = (function(){
 	    return d.x / 180 * Math.PI;
 	  });
 
-    console.log("chrome 15");
+    // console.log("chrome 15");
     // Chrome 15 bug: <http://code.google.com/p/chromium/issues/detail?id=98951>
     jQuery('#wrapper-viz').html('');
     var div = d3.select("#wrapper-viz");
@@ -203,14 +203,19 @@ BEERVIZ = (function(){
     fileNode = 'data/deed.json';
     fileLink = 'data/relation.json';
 
-    console.log(fileNode, fileLink);
+    // console.log(fileNode, fileLink);
 
     d3.json(fileNode, function(error, classes) {
       //console.log("-------------hello world----------------");
       d3.json(fileLink, function(error, relations) {
         //karma = classes;
         // deep copy classes
-        karma = jQuery.extend(true, {}, classes);
+        console.log("DEED: ");
+        console.log(classes);
+        karma = JSON.parse(JSON.stringify(classes));
+        // karma = jQuery.extend(true, {}, classes);
+        console.log("KARMA: ");
+        console.log(karma);
 
 	nodes = cluster.nodes(packages.root(classes));
 	links = packages.imports(relations, nodes);
@@ -235,8 +240,8 @@ BEERVIZ = (function(){
           }
         });
 
-        console.log("nodes : ");
-        console.log(nodes);
+        // console.log("nodes : ");
+        // console.log(nodes);
 
 	var path = svg.selectAll("path.link")
               .data(links)
@@ -627,8 +632,8 @@ BEERVIZ = (function(){
   function popEditbox(d) {
     // modify karma
 
-    console.log("popEditbox: pop a dialog to edit karma content");
-    console.log(d);
+    // console.log("popEditbox: pop a dialog to edit karma content");
+    // console.log(d);
     bootbox.dialog({
       title: d.version.word,
       //message: "<form><input type='text' value="+d.version.intro+"></form>",
@@ -641,12 +646,12 @@ BEERVIZ = (function(){
           label: "Save",
           className: "btn-success",
           callback: function() {
-            console.log("save karma content: ");
-            console.log($('#karma-content').val());
-            console.log("karma: ");
-            console.log(karma);
-            console.log("d: ");
-            console.log(d);
+            // console.log("save karma content: ");
+            // console.log($('#karma-content').val());
+            // console.log("karma: ");
+            // console.log(karma);
+            // console.log("d: ");
+            // console.log(d);
             // change karma object and post it to set-karma servlet.
             // save the content into js.json and backend data model.
             var karma_type = 0;
@@ -654,16 +659,26 @@ BEERVIZ = (function(){
               karma_type = 1;
             }
 
-            for (var k in karma) {
+
+            for (k in karma) {
               console.log(k);
               if (karma[k].id == d.id) {
-                // care about the userpref = good/bad.
-                console.log("yes find the karma id");
-                console.log("karma_type:" + karma_type);
                 karma[k].version[karma_type].intro = $('#karma-content').val();
                 break;
               }
             }
+            /*
+            for (var k in karma) {
+              // console.log(k);
+              if (karma[k].id == d.id) {
+                // care about the userpref = good/bad.
+                // console.log("yes find the karma id");
+                // console.log("karma_type:" + karma_type);
+                karma[k].version[karma_type].intro = $('#karma-content').val();
+                break;
+              }
+            }
+             */
 
             // send karma to backend servlet: set-karma
             var karma_json = JSON.stringify(karma);

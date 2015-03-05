@@ -29,17 +29,6 @@
 
 ; 每个 http 请求 都会经过这里，static的也一样
 (define (start request)
-  ;(display "in start request")
-  ;(display "---------------------------")
-  ;(newline)
-  ;(display (request-method request))
-  ;(newline)
-  ;(display (url->string (request-uri request)))
-  ;(newline)
-  ;(display (request-post-data/raw))
-  ;(newline)
-  ;(newline)
-  ;(newline)
   (servlet-dispatch request))
 
 
@@ -57,7 +46,7 @@
   ;(display "set-karma")
   ;(newline)
   ;(display (request-post-data/raw request))
-  (update-karma (bytes->string/utf-8 (request-post-data/raw request)))
+  (update-karma (bytes->jsexpr (request-post-data/raw request)))
   (newline)
   (response/full 200 #"OK"
                  (current-seconds)
