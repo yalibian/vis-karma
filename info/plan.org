@@ -29,10 +29,18 @@
    1. 几个函数的实现。get-relation/get-karma/set-relation/set-karma
       主要是数据类型之间的换算，首先是将 .json 文件加载到内存中，如果有修改，就回写到文件中，如果没有，就还是原来的。前端使用form来修改set-karma 数据，对于relation数据，先不进行。先修改 karma 数据。 先对前端中的js进行修改实现再说。
       进行加载的时候，还是按照原来的方式进行加载，只是在set-karma的时候，需要后端可以进行修改到file中。
-      使用ajax更新json到后端。在 bootbox中使用 ajax 同步json数据。 需要有两部分的修改，第一是svg里面的这个node的karma数据，第二个就是js中的这个总体的karma值. karma 中混合了一些杂乱的属性，并不是纯正的json，需要对其进行修改。
-      karma中的version 有两种，一种是正，一种是负，所以，要区分一下，再进行更新。
-      返现 ajax post 不行的原因是 我使用的 racket web server 的 dispatch-values API 不够熟悉，今天将 dispatch 测试程序完成，并将 karma 传递到后端。
-      添加 #:method "post" 到 dispatch-values 里面，使得对于 set-karma 的请求可以通过 dispatch-values 分发到 set-karma servlet 上面。
 
+   2. 使用ajax更新json到后端。在 bootbox中使用 ajax 同步json数据。 需要有两部分的修改，第一是svg里面的这个node的karma数据，第二个就是js中的这个总体的karma值. karma 中混合了一些杂乱的属性，并不是纯正的json，需要对其进行修改。
+    karma中的version 有两种，一种是正，一种是负，所以，要区分一下，再进行更新。
+    返现 ajax post 不行的原因是 我使用的 racket web server 的 dispatch-values API 不够熟悉，今天将 dispatch 测试程序完成，并将 karma 传递到后端。
+    添加 #:method "post" 到 dispatch-values 里面，使得对于 set-karma 的请求可以通过 dispatch-values 分发到 set-karma servlet 上面。
+   3. 最后更新前端传递过来的的 JSon 数据到Json文本中
+      使用 racket json 来写入json 文件中。
+      出现两种错误：其一： 写回后端的 JSon 数据和原来的JSon数据不同，写回的数据是一个对象（对象的每个属性分别为 0，1，2... 的属性名），而原来的数据是一个数组。
+      其二： racket json 写回的时候，出现问题。
+    先解决第二个，然后再js中修缮第一个问题。
+      第一个问题是由 racket 路径 (current-directory) 引起的，现在已经修改完成，然后又引入了一个新的问题： 写回的数据是乱码，可能是因为 post-data 是 bytes 类型的数据引起的，现在使用 bytes->string/utf-8 进行修改。 果然是这个原因引起的乱码，现在已经修改完成。
 
-3. JS前端的优化
+      现在只剩下第二个问题，也就是，将 js 传递到后端的json数据进行修改，将 js object 修改成 js array。
+
+2. JS前端的优化

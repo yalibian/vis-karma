@@ -12,29 +12,44 @@
 (provide (all-defined-out))
 
 ; file-path -> js-expr
-(define (read-json-from-file file-path)
-  (string->jsexpr (file->string file-path)))
+;(define (read-json-from-file file-path)
+;  (string->jsexpr (file->string file-path)))
 
 ; write js-expression into a file
 (define (write-json-to-file file-path js-expr)
+  (newline)
+  (display "in write-json-to-file")
+  (newline)
+  (display (current-directory))
+  (newline)
+  (display "FILE_PATH: ")
+  (display file-path)
+  (newline)
   (call-with-output-file file-path
     (lambda (out)
       (write (jsexpr->string js-expr) out))
     #:exists 'replace))
 
+(define (write-string-to-file file-path str)
+  (call-with-output-file file-path
+    (lambda (out)
+      (write str out))
+    #:exists 'replace
+    #:mode 'text))
 
 
 ;;--------------------------------------------------------------;;
 ;; relation
 ;;--------------------------------------------------------------;;
 
-(define relation-path "data/relation.json")
+(define relation-path (build-path (current-directory) "data/relation.json"))
 
-(define RELATION (read-json-from-file relation-path))
+;(define RELATION (read-json-from-file relation-path))
 
-(define (update-relation js-expr)
-  (set! RELATION js-expr)
-  (write-json-to-file karma-path RELATION))
+
+;(define (update-relation js-expr)
+;  (set! RELATION js-expr)
+;  (write-json-to-file relation-path RELATION))
 
 
 
@@ -42,10 +57,17 @@
 ;; karma
 ;;--------------------------------------------------------------;;
 
-(define karma-path "data/karma.json")
-
-(define KARMA (read-json-from-file karma-path))
+;(define karma-path "data/karma.json")
+; test the karma.json
+(define karma-path (build-path (current-directory) "data/karma-test.json"))
 
 (define (update-karma js-expr)
-  (set! KARMA js-expr)
-  (write-json-to-file karma-path KARMA))
+;  (display KARMA)
+  (newline)
+  (display "update karma with js-expr")
+  (newline)
+  ;(display js-expr)
+  (display (string? js-expr))
+  (newline)
+  (define KARMA js-expr)
+  (write-string-to-file karma-path KARMA))

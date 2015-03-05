@@ -667,20 +667,6 @@ BEERVIZ = (function(){
 
             // send karma to backend servlet: set-karma
             var karma_json = JSON.stringify(karma);
-
-            /*
-            $.get("/set-karma", function (data, status) {
-              console.log("jquery ajax get Sucess");
-            });
-             */
-            $.post("/set-karma",
-                   {name: "bianyali",
-                    city: "hangzhou"},
-                   function (data, status) {
-                     console.log("jquery ajax post Success");
-                   });
-
-            /*
             $.ajax({
               type: "POST",
               //type: "GET",
@@ -699,14 +685,10 @@ BEERVIZ = (function(){
             }).success(function(data, testStatus, jqXHR) {
               console.log("yes, ajax test ok....");
             });
-             */
-
-            console.log("edited-karma: ");
-            console.log(karma);
 
             // change d
             d.version.intro = $('#karma-content').val();
-            console.log(d.version.intro);
+            // console.log(d.version.intro);
           }
         },
 
