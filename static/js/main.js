@@ -134,6 +134,7 @@ BEERVIZ = (function(){
   // which is good/bad/sum.
 
   // depend on input to choice which data to render the viz
+  var karma; // represent the deed.json
   var d3Example = function(colorVal, styleVal) {
 
     console.log("in d3Example");
@@ -207,6 +208,9 @@ BEERVIZ = (function(){
     d3.json(fileNode, function(error, classes) {
       //console.log("-------------hello world----------------");
       d3.json(fileLink, function(error, relations) {
+        //karma = classes;
+        // deep copy classes
+        karma = jQuery.extend(true, {}, classes);
 
 	nodes = cluster.nodes(packages.root(classes));
 	links = packages.imports(relations, nodes);
@@ -555,6 +559,7 @@ BEERVIZ = (function(){
 
     var category = jQuery('#category');
 
+    //console.log(d);
     var intro = d.version.intro;
     if(intro.length > 150) {
       intro = intro.slice(0, 150);
@@ -638,8 +643,70 @@ BEERVIZ = (function(){
           callback: function() {
             console.log("save karma content: ");
             console.log($('#karma-content').val());
+            console.log("karma: ");
+            console.log(karma);
+            console.log("d: ");
+            console.log(d);
+            // change karma object and post it to set-karma servlet.
             // save the content into js.json and backend data model.
-            //console.log(d.version.intro);
+            var karma_type = 0;
+            if (userpref == "bad") {
+              karma_type = 1;
+            }
+
+            for (var k in karma) {
+              console.log(k);
+              if (karma[k].id == d.id) {
+                // care about the userpref = good/bad.
+                console.log("yes find the karma id");
+                console.log("karma_type:" + karma_type);
+                karma[k].version[karma_type].intro = $('#karma-content').val();
+                break;
+              }
+            }
+
+            // send karma to backend servlet: set-karma
+            var karma_json = JSON.stringify(karma);
+
+            /*
+            $.get("/set-karma", function (data, status) {
+              console.log("jquery ajax get Sucess");
+            });
+             */
+            $.post("/set-karma",
+                   {name: "bianyali",
+                    city: "hangzhou"},
+                   function (data, status) {
+                     console.log("jquery ajax post Success");
+                   });
+
+            /*
+            $.ajax({
+              type: "POST",
+              //type: "GET",
+              url:"/set-karma",
+              data:karma_json,
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function(data){
+                console.log("yes it's from set-karma response");
+                alert(data);
+              },
+              failure: function(errMsg){
+                console.log("no, it's error. but from set-karma response.");
+                alert(errMsg);
+              }
+            }).success(function(data, testStatus, jqXHR) {
+              console.log("yes, ajax test ok....");
+            });
+             */
+
+            console.log("edited-karma: ");
+            console.log(karma);
+
+            // change d
+            d.version.intro = $('#karma-content').val();
+            console.log(d.version.intro);
           }
         },
 

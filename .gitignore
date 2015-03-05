@@ -1,3 +1,10 @@
 #
 
-servlets/compiled/
+servlets/compiled/*
+!.gitignore
+!*.rkt
+!*.js
+!*.html
+.*
+\#
+*\#*

@@ -1,7 +1,9 @@
 #lang web-server
 
 (require web-server/templates
-         json)
+         json
+         net/uri-codec
+         net/url)
 ;(require web-server/)
 
 (require "data.rkt")
@@ -25,11 +27,21 @@
    [("get-relation") get-relation]
    [("set-relation") set-relation]
    [("get-karma") get-karma]
-   [("set-karma") set-karma]))
+   [("set-karma") #:method "post" set-karma]))
 
 ; 每个 http 请求 都会经过这里，static的也一样
 (define (start request)
   ;(display "in start request")
+  ;(display "---------------------------")
+  ;(newline)
+  ;(display (request-method request))
+  ;(newline)
+  ;(display (url->string (request-uri request)))
+  ;(newline)
+  ;(display (request-post-data/raw))
+  ;(newline)
+  ;(newline)
+  ;(newline)
   (servlet-dispatch request))
 
 
@@ -50,8 +62,17 @@
 
 ; update karma.json
 (define (set-karma request)
+  (display "----------------------")
+  (newline)
   (display "set-karma")
-  'test-now)
+  (newline)
+  (display (request-post-data/raw request))
+  (newline)
+  (response/full 200 #"OK"
+                 (current-seconds)
+                 TEXT/HTML-MIME-TYPE
+                 empty
+                 (list #"<html><body>Hello, World!</body></html>")))
 
 ; response a http body of json file
 (define (response/json js-expr)
