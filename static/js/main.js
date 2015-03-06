@@ -152,6 +152,77 @@ BEERVIZ = (function(){
         deeds;
 
 
+    /* ---------------------------------BEGIN---------------------------------
+     --------------------------------Node Drag--------------------------------
+     -------------------------------------------------------------------------
+     */
+    var relatedNode = null;
+    var overRelatedNode = function (d) {
+      relatedNode = d;
+      updateTempConnector();
+    };
+    var outRelatedNode = function (d) {
+      relatedNode = null;
+      updateTempConnector();
+    };
+
+    var draggingNode = null;
+    var draggingNode_x, draggingNode_y;
+    var circleDragger = d3.behavior.drag()
+          .on("dragstart", function(d){
+            draggingNode = d;
+            draggingNode_x = d.x;
+            draggingNode_y = d.y;
+            // it's important that we suppress the mouseover event on the node being dragged.
+            // Otherwise it will absorb the mouseover event and the underlying node will not detect it
+            d3.select(this).attr( 'pointer-events', 'none' );
+          })
+          .on("drag", function(d) {
+            d.x += d3.event.dx;
+            d.y += d3.event.dy;
+            var node = d3.select(this);
+            node.attr( { cx: d.x, cy: d.y } );
+            updateTempConnector();
+          })
+          .on("dragend", function(d){
+            draggingNode = null;
+            // now restore the mouseover event or we won't be able to drag a 2nd time
+            d3.select(this).attr( 'pointer-events', '' );
+            // return the node to the orign localte.
+            d.x = draggingNode_x;
+            d.y = draggingNode_y;
+            if (relatedNode != null) {
+              console.log("set the relations of karmas");
+              relatedNode = null;
+            }
+          });
+
+
+    var updateTempConnector = function() {
+      var data = [];
+      if ( draggingNode != null && relatedNode != null) {
+        // have to flip the source coordinates since we did this for the existing connectors on the original tree
+        data = [ {source: {x: relatedNode.y, y: relatedNode.x},
+                  target: {x: draggingNode.x, y: draggingNode.y} } ];
+      }
+      var link = vis.selectAll(".templink").data(data);
+
+      link.enter().append("path")
+        .attr("class", "templink")
+        .attr("d", d3.svg.diagonal() )
+        .attr('pointer-events', 'none');
+
+      link.attr("d", d3.svg.diagonal() );
+
+      link.exit().remove();
+    };
+
+    /* ---------------------------------END-----------------------------------
+     --------------------------------Node Drag--------------------------------
+     -------------------------------------------------------------------------
+     */
+
+
     var cluster = d3.layout.cluster()
 	  .size([360, ry - 120])
 	  .sort(function(a, b) {
@@ -259,11 +330,20 @@ BEERVIZ = (function(){
 
 	var label = svg.selectAll("g.node")
 	      .data(nodes.filter(function(n) {
+                //console.log("g.node - d: ");
+                // console.log(n);
                 return !n.children;
                 //return true;
               }))
 	      .enter().append("svg:g")
-	      .attr("class", "node")
+	      //.attr("class", "node")
+              .attr("class", function(d){
+                if(d.id[0] == "x"){
+                  return "node input-x";
+                } else {
+                  return "node output-y";
+                }
+              })
 	      .attr("id", function(d) {
                 return "node-" + d.id;
               })
@@ -284,6 +364,24 @@ BEERVIZ = (function(){
 	    return Math.round(Math.pow(250, 1/3));
 	  })
           .on("click", clickOnCircle);
+          //.call(circleDragger);
+
+        var label_x = svg.selectAll("g.input-x");
+        var label_y = svg.selectAll("g.output-y");
+        label_x.selectAll("circle")
+          .call(circleDragger);
+        console.log("label_x");
+        console.log(label_x);
+        console.log("label");
+        console.log(label);
+
+        /*
+        var label_y = svg.selectAll("output-y");
+        console.log("label_y");
+        concole.log(label_y);
+         */
+
+
 
 	label.append("svg:text")
 	  .attr("dx", function(d) {
