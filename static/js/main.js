@@ -168,21 +168,26 @@ BEERVIZ = (function(){
 
     var draggingNode = null;
     var draggingNode_x, draggingNode_y;
+
     var circleDragger = d3.behavior.drag()
           .on("dragstart", function(d){
+            console.log("drag-start");
             draggingNode = d;
             draggingNode_x = d.x;
             draggingNode_y = d.y;
+
             // it's important that we suppress the mouseover event on the node being dragged.
             // Otherwise it will absorb the mouseover event and the underlying node will not detect it
             d3.select(this).attr( 'pointer-events', 'none' );
           })
           .on("drag", function(d) {
+            console.log("dragging");
+            console.log(d);
             d.x += d3.event.dx;
             d.y += d3.event.dy;
             var node = d3.select(this);
             node.attr( { cx: d.x, cy: d.y } );
-            updateTempConnector();
+            // updateTempConnector();
           })
           .on("dragend", function(d){
             draggingNode = null;
@@ -195,6 +200,11 @@ BEERVIZ = (function(){
               console.log("set the relations of karmas");
               relatedNode = null;
             }
+
+            // back to it's  origin location
+            // cause the location was not cx and cy
+            d3.select(this)
+              .attr({cx: d.x, cy: d.y});
           });
 
 
@@ -348,6 +358,8 @@ BEERVIZ = (function(){
                 return "node-" + d.id;
               })
 	      .attr("transform", function(d) {
+                console.log("transform");
+                console.log(d);
                 return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
               });
 
@@ -364,22 +376,30 @@ BEERVIZ = (function(){
 	    return Math.round(Math.pow(250, 1/3));
 	  })
           .on("click", clickOnCircle);
+
           //.call(circleDragger);
 
         var label_x = svg.selectAll("g.input-x");
         var label_y = svg.selectAll("g.output-y");
-        label_x.selectAll("circle")
-          .call(circleDragger);
-        console.log("label_x");
-        console.log(label_x);
-        console.log("label");
-        console.log(label);
 
-        /*
-        var label_y = svg.selectAll("output-y");
-        console.log("label_y");
-        concole.log(label_y);
-         */
+        // add drag-circle
+        label_x.on("mouseover", function (d) {
+          console.log("mouseover: start");
+          console.log(d3.select(this).attr("cx"));
+
+          var dragcircle_data = [{"x":0, "y": 0}];
+          d3.select(this)
+            .selectAll(".dragcircle")
+            .data(dragcircle_data)
+            .enter()
+            .append("circle")
+            .attr("r", 5)
+            .attr("color", "red")
+            .attr("class", "dragcircle")
+            .call(circleDragger);
+
+        });
+
 
 
 
@@ -759,7 +779,7 @@ BEERVIZ = (function(){
 
 
             for (k in karma) {
-              console.log(k);
+              //console.log(k);
               if (karma[k].id == d.id) {
                 karma[k].version[karma_type].intro = $('#karma-content').val();
                 break;
@@ -788,15 +808,15 @@ BEERVIZ = (function(){
               contentType: "application/json; charset=utf-8",
               dataType: "json",
               success: function(data){
-                console.log("yes it's from set-karma response");
+                //console.log("yes it's from set-karma response");
                 alert(data);
               },
               failure: function(errMsg){
-                console.log("no, it's error. but from set-karma response.");
+                //console.log("no, it's error. but from set-karma response.");
                 alert(errMsg);
               }
             }).success(function(data, testStatus, jqXHR) {
-              console.log("yes, ajax test ok....");
+              //console.log("yes, ajax test ok....");
             });
 
             // change d

@@ -49,8 +49,24 @@
 2. relation 前端交互优化
 
    1. d3.js 中 实现 两个元素拖动交互
-      当 拖动一个 x-node 到一个 y-node 上的时候，弹出对话框，对两者的关系进行编辑。如果有关系，可以删除，如果没有关系，可以添加。以及显示两者之间的对比度。
-      添加另外一个圆圈，就可以 将两个 node 联系在一起。
-      实现的方案是： 输入 x 是可以拖动的，输出的 y 是不可以拖动的，相反，输出有一个 范围域。
+
+      * 构想
+        当 拖动一个 x-node 到一个 y-node 上的时候，弹出对话框，对两者的关系进行编辑。如果有关系，可以删除，如果没有关系，可以添加。以及显示两者之间的对比度。
+        添加另外一个圆圈，就可以 将两个 node 联系在一起。
+        实现的方案是： 输入 x 是可以拖动的，输出的 y 是不可以拖动的，相反，输出有一个 范围域。; 现在已经 select input 和 output 了，下一步，对两者中的 circle 不同的属性，进行设置。
+
+      * 更直观的联系交互
+        为了更好的交互，我决定这样实现 这个 relation 的交互： 从 input 出发，当拖动 input node 时， 就会产生一个相应的 circle， 实际上拖动的是这个circle， 然后对于这个circle 和 原来的 input 之间会有一个link 的连线。 然后这个 link 延伸到 output 上面。
+
+      * 产生了一个大圆圈
+        使用这个圆圈作为，悬浮在label 上，产生的东东。
+        首先，拖动 input-node 的时候，产生 一个 移动的 link-node， 此时 input-node 就无法响应 拖动event， 然后 link-node 进行拖动响应，然后 实时监测 与 related-node (output-node) 进行联系。
+        因为我大量在 svg 中使用 transform，使得 我的图形在进行联系的时候，不好和 鼠标的移动进行联系。
+        必须要获得 一个 circle 的相对于 svg 的绝对位置。
+
+      * 测试程序 transform
+        在下transform 测试程序，希望能够transform 函数， 知道具体 transform 后的element的坐标。
+
+
 
 3. relation json 部署
