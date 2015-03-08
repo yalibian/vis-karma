@@ -353,87 +353,95 @@ BEERVIZ = (function(){
      --------------------------------Node Drag--------------------------------
      -------------------------------------------------------------------------
      */
-    var relatedNode = null;
-    var overRelatedNode = function (d) {
-      relatedNode = d;
-      updateTempConnector();
-    };
-    var outRelatedNode = function (d) {
-      relatedNode = null;
-      updateTempConnector();
-    };
+        var relatedNode = null;
+        var overRelatedNode = function (d) {
+          console.log("in overRelatedNode");
+          relatedNode = d;
+          // updateTempConnector();
+        };
+        var outRelatedNode = function (d) {
+          relatedNode = null;
+          // updateTempConnector();
+        };
 
-    var draggingNode = null;
-    var draggingNode_x, draggingNode_y;
+        var draggingNode = null;
+        var draggingNode_x, draggingNode_y;
 
-    var circleDragger = d3.behavior.drag()
+        var circleDragger = d3.behavior.drag()
         /*
          .on("dragstart", function(d){
-            console.log("drag-start");
-            draggingNode = d;
-            // draggingNode_x = d.x;
-            // draggingNode_y = d.y;
+         console.log("drag-start");
+         draggingNode = d;
+         // draggingNode_x = d.x;
+         // draggingNode_y = d.y;
 
-            // it's important that we suppress the mouseover event on the node being dragged.
-            // Otherwise it will absorb the mouseover event and the underlying node will not detect it
-            d3.select(this).attr( 'pointer-events', 'none' );
-          })
+         // it's important that we suppress the mouseover event on the node being dragged.
+         // Otherwise it will absorb the mouseover event and the underlying node will not detect it
+         d3.select(this).attr( 'pointer-events', 'none' );
+         })
          */
-          .on("drag", function(d) {
-            console.log("dragging");
-            console.log(d);
-            d.point_x += d3.event.dx;
-            d.point_y += d3.event.dy;
-            var node = d3.select(this);
-            node.attr( { cx: d.point_x, cy: d.point_y } );
-            // updateTempConnector();
-          })
-          .on("dragend", function(d){
+              .on("drag", function(d) {
+                // console.log("dragging");
+                // console.log(d);
+                d.point_x += d3.event.dx;
+                d.point_y += d3.event.dy;
+                var node = d3.select(this);
+                node.attr( { cx: d.point_x, cy: d.point_y } );
 
-            // put the movable circle back to its origin piont
-            d.point_x = 0;
-            d.point_y = 0;
-            var node = d3.select(this);
-            node.attr( { cx: d.point_x, cy: d.point_y } );
+                // reveal the phantom circle
+                d3.select(".phantom_circle")
+                  .attr("pointer-events", '');
+
+                // updateTempConnectortor();
+              })
+              .on("dragend", function(d){
+
+                // put the movable circle back to its origin piont
+                d.point_x = 0;
+                d.point_y = 0;
+                var node = d3.select(this);
+                node.attr( { cx: d.point_x, cy: d.point_y } );
+
+                // conceal the phantom circle
+                d3.select(".phantom_circle")
+                  .attr("pointer-events", 'none');
+
+                draggingNode = null;
+                // now restore the mouseover event or we won't be able to drag a 2nd time
+                d3.select(this).attr( 'pointer-events', '' );
+                // return the node to the orign localte.
+                d.x = draggingNode_x;
+                d.y = draggingNode_y;
+                if (relatedNode != null) {
+                  console.log("set the relations of karmas");
+                  relatedNode = null;
+                }
+
+                // back to it's  origin location
+                // cause the location was not cx and cy
+                d3.select(this)
+                  .attr({cx: d.x, cy: d.y});
+              });
 
 
+        var updateTempConnector = function() {
+          var data = [];
+          if ( draggingNode != null && relatedNode != null) {
+            // have to flip the source coordinates since we did this for the existing connectors on the original tree
+            data = [ {source: {x: relatedNode.y, y: relatedNode.x},
+                      target: {x: draggingNode.x, y: draggingNode.y} } ];
+          }
+          var link = vis.selectAll(".templink").data(data);
 
-            draggingNode = null;
-            // now restore the mouseover event or we won't be able to drag a 2nd time
-            d3.select(this).attr( 'pointer-events', '' );
-            // return the node to the orign localte.
-            d.x = draggingNode_x;
-            d.y = draggingNode_y;
-            if (relatedNode != null) {
-              console.log("set the relations of karmas");
-              relatedNode = null;
-            }
+          link.enter().append("path")
+            .attr("class", "templink")
+            .attr("d", d3.svg.diagonal() )
+            .attr('pointer-events', 'none');
 
-            // back to it's  origin location
-            // cause the location was not cx and cy
-            d3.select(this)
-              .attr({cx: d.x, cy: d.y});
-          });
+          link.attr("d", d3.svg.diagonal() );
 
-
-    var updateTempConnector = function() {
-      var data = [];
-      if ( draggingNode != null && relatedNode != null) {
-        // have to flip the source coordinates since we did this for the existing connectors on the original tree
-        data = [ {source: {x: relatedNode.y, y: relatedNode.x},
-                  target: {x: draggingNode.x, y: draggingNode.y} } ];
-      }
-      var link = vis.selectAll(".templink").data(data);
-
-      link.enter().append("path")
-        .attr("class", "templink")
-        .attr("d", d3.svg.diagonal() )
-        .attr('pointer-events', 'none');
-
-      link.attr("d", d3.svg.diagonal() );
-
-      link.exit().remove();
-    };
+          link.exit().remove();
+        };
 
     /* ---------------------------------END-----------------------------------
      --------------------------------Node Drag--------------------------------
@@ -470,8 +478,9 @@ BEERVIZ = (function(){
                 return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
               });
 
-        // add mov_circle
-	label.append("circle")
+        // add mov_circle from mov_input-x
+	svg.selectAll("g.mov_input-x")
+          .append("circle")
 	  .attr("cx", 0)
 	  .attr("cy", 0)
 	  .attr("fill", function(d,i){
@@ -485,8 +494,19 @@ BEERVIZ = (function(){
           .on("click", clickOnCircle)
           .call(circleDragger);
 
-        var label_x = svg.selectAll("g.input-x");
-        var label_y = svg.selectAll("g.output-y");
+        // add phantom circle from mov_output-y to give us mouseover in a radius around it
+        svg.selectAll("g.mov_output-y")
+          .append("circle")
+          .attr("r", 60)
+          .attr("opacity", 0.0)
+          .attr("class", "phantom_circle")
+          .attr("pointer-events", 'none')
+          .on("mouseover", overRelatedNode)
+          .on("mouseout", outRelatedNode);
+          // .on("click", clickOnCircle);
+
+        // var label_x = svg.selectAll("g.input-x");
+        // var label_y = svg.selectAll("g.output-y");
 
 
 

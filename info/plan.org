@@ -73,6 +73,10 @@
         有 input 的drag circle， 第一开始是隐藏的，只有 dragstart的时候，就会变成 红色， 停止drag 就会到原来的位置，并且变成隐藏的
         还有一个 output 的 detect circle，一直 都是隐藏的，用来检测碰撞，进行连线。
 
+      * 只能从 x 到 y
+        为了防止 麻烦，只能从x 到 y.
+
+
 
 
 3. relation json 部署
