@@ -65,7 +65,13 @@
         必须要获得 一个 circle 的相对于 svg 的绝对位置。
 
       * 测试程序 transform
-        在下transform 测试程序，希望能够transform 函数， 知道具体 transform 后的element的坐标。
+        在下transform 测试程序，希望能够transform 函数， 知道具体 transform 后的element的坐标。(在需要先讲整个 html 页面加载好，才能执行script )
+        现在已经将这个实现好，现在就开始实现 拖拽 的功能。
+
+      * 设置多个circle类
+        其中 有固定的 circle 用来单击显示信息
+        有 input 的drag circle， 第一开始是隐藏的，只有 dragstart的时候，就会变成 红色， 停止drag 就会到原来的位置，并且变成隐藏的
+        还有一个 output 的 detect circle，一直 都是隐藏的，用来检测碰撞，进行连线。
 
 
 
