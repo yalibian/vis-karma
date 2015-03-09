@@ -357,14 +357,15 @@ BEERVIZ = (function(){
         var overRelatedNode = function (d) {
           console.log("in overRelatedNode");
           relatedNode = d;
-          // updateTempConnector();
+          updateTempConnector();
         };
         var outRelatedNode = function (d) {
           relatedNode = null;
-          // updateTempConnector();
+          updateTempConnector();
         };
 
         var draggingNode = null;
+        var sourceNode = null;
         var draggingNode_x, draggingNode_y;
 
         var circleDragger = d3.behavior.drag()
@@ -381,6 +382,14 @@ BEERVIZ = (function(){
          })
          */
               .on("drag", function(d) {
+                // init draggingNode and sourceNode
+                draggingNode = d;
+
+                var label_node = d3.select("#node-" + d.id);//.attr("__data__");
+                // sourceNode = label_node//.attr("__data__");
+                sourceNode = d3.select("#node-" + d.id).property("__data__");
+
+
                 // console.log("dragging");
                 // console.log(d);
                 d.point_x += d3.event.dx;
@@ -393,9 +402,9 @@ BEERVIZ = (function(){
                 d3.selectAll(".phantom_circle")
                   .attr("pointer-events", "all");
 
-                console.log(d3.select(".phantom_circle").attr("pointer-events"));
+                //console.log(d3.select(".phantom_circle").attr("pointer-events"));
 
-                // updateTempConnectortor();
+                updateTempConnector();
               })
               .on("dragend", function(d){
 
@@ -431,13 +440,23 @@ BEERVIZ = (function(){
 
 
         var updateTempConnector = function() {
+
+          // link: draggingNode to relatedNode
+          console.log("sourceNode");
+          console.log(sourceNode);
+          // console.log(sourceNode.point_x);
+          console.log("draggingNode: ");
+          console.log(draggingNode);
+          console.log("relatedNode: ");
+          console.log(relatedNode);
+
           var data = [];
           if ( draggingNode != null && relatedNode != null) {
             // have to flip the source coordinates since we did this for the existing connectors on the original tree
             data = [ {source: {x: relatedNode.y, y: relatedNode.x},
                       target: {x: draggingNode.x, y: draggingNode.y} } ];
           }
-          var link = vis.selectAll(".templink").data(data);
+          var link = svg.selectAll(".templink").data(data);
 
           link.enter().append("path")
             .attr("class", "templink")
@@ -447,6 +466,27 @@ BEERVIZ = (function(){
           link.attr("d", d3.svg.diagonal() );
 
           link.exit().remove();
+
+          // link: sourceNode to draggingNode
+          var data_link_source = [];
+          if (draggingNode != null) {
+
+            data_link_source = [{source: {x: draggingNode.point_x, y: draggingNode.point_y},
+                                target: {x: 0, y: 0}}];
+                                //targe: {x: sourceNode.point_x, y: sourceNode.point_y}}];
+          }
+
+          var link_source = d3.select("#node-" + draggingNode.id)
+                .selectAll(".sourcelink")
+                .data(data_link_source);
+          link_source
+            .enter()
+            .append("path")
+            .attr("class", "sourcelink tmplink")
+            .attr("d", d3.svg.diagonal())
+            .attr("pointer-events", "none");
+          link_source.attr("d", d3.svg.diagonal());
+          link_source.exit().remove();
         };
 
     /* ---------------------------------END-----------------------------------
