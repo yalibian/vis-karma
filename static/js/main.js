@@ -278,8 +278,8 @@ BEERVIZ = (function(){
                 return "node-" + d.id;
               })
 	      .attr("transform", function(d) {
-                console.log("transform");
-                console.log(d);
+                // console.log("transform");
+                // console.log(d);
                 return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
               });
 
@@ -388,9 +388,12 @@ BEERVIZ = (function(){
                 var node = d3.select(this);
                 node.attr( { cx: d.point_x, cy: d.point_y } );
 
+                d3.select(this).attr("pointer-events", "none");
                 // reveal the phantom circle
-                d3.select(".phantom_circle")
-                  .attr("pointer-events", '');
+                d3.selectAll(".phantom_circle")
+                  .attr("pointer-events", "all");
+
+                console.log(d3.select(".phantom_circle").attr("pointer-events"));
 
                 // updateTempConnectortor();
               })
@@ -402,8 +405,11 @@ BEERVIZ = (function(){
                 var node = d3.select(this);
                 node.attr( { cx: d.point_x, cy: d.point_y } );
 
+                d3.select(this).attr("pointer-events", "");
+
                 // conceal the phantom circle
-                d3.select(".phantom_circle")
+                console.log(d3.select(".phantom_circle"));
+                d3.selectAll(".phantom_circle")
                   .attr("pointer-events", 'none');
 
                 draggingNode = null;
@@ -473,8 +479,8 @@ BEERVIZ = (function(){
 	      .attr("transform", function(d) {
                 d.point_x = 0;
                 d.point_y = 0;
-                console.log("transform");
-                console.log(d);
+                // console.log("transform");
+                // console.log(d);
                 return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
               });
 
@@ -492,6 +498,16 @@ BEERVIZ = (function(){
 	    return Math.round(Math.pow(250, 1/3));
 	  })
           .on("click", clickOnCircle)
+          .on("mouseover", function(d) {
+            console.log(" mouseover");
+            d3.select(this).attr("point-events", "none");
+            d3.select(".phantom_circle").attr("point-events", "");
+          })
+          .on("mouseout", function (d) {
+            console.log("mouseout");
+            d3.select(this).attr("point-events", "");
+            d3.select(".phantom_circle").attr("point-events", "none");
+          })
           .call(circleDragger);
 
         // add phantom circle from mov_output-y to give us mouseover in a radius around it
