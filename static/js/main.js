@@ -230,7 +230,7 @@ BEERVIZ = (function(){
         var relatedNode = null;
         var draggingNode = null;
         var sourceNode = null;
-        var draggingNode_x, draggingNode_y;
+        var draggingNode_x = 0, draggingNode_y = 0;
 
         var overRelatedNode = function (d) {
           if (sourceNode != null && (d.id != sourceNode.id) && (d.id[0] != sourceNode.id[0])) {
@@ -275,12 +275,10 @@ BEERVIZ = (function(){
 
                 console.log("dragging");
 
-                // draggingNode = d;
-
                 var label_node = d3.select("#node-" + d.id);//.attr("__data__");
                 sourceNode = d3.select("#node-" + d.id).property("__data__");
 
-
+                console.log(draggingNode);
                 draggingNode.x += d3.event.dx;
                 draggingNode.y += d3.event.dy;
 
@@ -304,6 +302,8 @@ BEERVIZ = (function(){
               })
               .on("dragend", function(d){
 
+                console.log("dragend");
+
                 // put the movable circle back to its origin piont
                 d.point_x = 0;
                 d.point_y = 0;
@@ -317,7 +317,7 @@ BEERVIZ = (function(){
                 d3.selectAll(".phantom_circle")
                   .attr("pointer-events", 'none');
 
-                draggingNode = null;
+                draggingNode = {x:0, y:0};
                 // now restore the mouseover event or we won't be able to drag a 2nd time
                 d3.select(this).attr( 'pointer-events', '' );
                 // return the node to the orign localte.
@@ -325,14 +325,28 @@ BEERVIZ = (function(){
                 label.selectAll(".tmpline")
                   .remove();
 
-                if (relatedNode != null) {
-                  //
-                  console.log("yes, message box");
-                  console.log(relatedNode.id);
-                  console.log(sourceNode.id);
-                  sourceNode = null;
+                source = sourceNode;
+                target = relatedNode;
+                if (relatedNode != null){
+                  label.select("#text" + relatedNode.id)
+	            .attr("font-size", function(d,i){
+	              textSize = 1.2;
+	              return textSize + 'em';
+	            });
+
                   relatedNode = null;
                 }
+
+                sourceNode = null;
+                draggingNode = null;
+                relatedNode = null;
+
+                if (target != null) {
+                  //
+                  console.log("yes, message box");
+                  relationEditbox(source, target);
+                }
+
               });
 
 
@@ -843,6 +857,62 @@ BEERVIZ = (function(){
       }
     });
   }
+
+
+  function relationEditbox(sourceNode, targetNode) {
+
+    console.log("in relationEditBox");
+    console.log(sourceNode);
+    console.log(targetNode);
+
+    bootbox.dialog({
+
+      title: sourceNode.version.word + " -- " + targetNode.version.word,
+      message:'<textarea id="karma-content" rows="15" cols="97">' + sourceNode.version.intro + '</textarea>',
+
+      buttons: {
+        save: {
+          label: "Save",
+          className: "btn-success",
+          callback: function() {
+            /*
+            // send karma to backend servlet: set-karma
+            var karma_json = JSON.stringify(karma);
+            $.ajax({
+              type: "POST",
+              //type: "GET",
+              url:"/set-karma",
+              data:karma_json,
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function(data){
+                //console.log("yes it's from set-karma response");
+                alert(data);
+              },
+              failure: function(errMsg){
+                //console.log("no, it's error. but from set-karma response.");
+                alert(errMsg);
+              }
+            }).success(function(data, testStatus, jqXHR) {
+            });
+
+            // change d
+            d.version.intro = $('#karma-content').val();
+             */
+          }
+        },
+
+        cancel: {
+          label: "Cancel",
+          className: "btn-danger",
+          callback: function() {
+            console.log("do not save karma content");
+          }
+        }
+      }
+    });
+  }
+
 
 
   return {
