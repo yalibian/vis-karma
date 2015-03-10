@@ -3,3 +3,9 @@
     stroke: red;
     stroke-width: 3px;
 }
+
+line {
+    stroke: #000;
+    shape-rending:crispEdges;
+    stroke-width: 3px;
+}
