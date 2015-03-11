@@ -868,7 +868,9 @@ BEERVIZ = (function(){
     bootbox.dialog({
 
       title: sourceNode.version.word + " -- " + targetNode.version.word,
-      message:'<textarea id="karma-content" rows="15" cols="97">' + sourceNode.version.intro + '</textarea>',
+      message: '<div> <input id="toggle-one" checked type="checkbox">Hello world<script>$(function(){$("#toggle-one").bootstrapToggle();})</script></div>',
+
+      //'<textarea id="karma-content" rows="15" cols="97">' + sourceNode.version.intro + '</textarea>',
 
       buttons: {
         save: {
