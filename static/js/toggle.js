@@ -6,6 +6,8 @@ $(function(){
   $("#toggle-one").bootstrapToggle();
 });
 
+
+// fill the relation_exp and relation_demo with text
 $(function () {
   $("#toggle-one").change(function () {
     console.log("hello world");

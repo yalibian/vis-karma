@@ -135,6 +135,8 @@ BEERVIZ = (function(){
 
   // depend on input to choice which data to render the viz
   var karma; // represent the deed.json
+  var relation; // represent the relation.json
+
   var d3Example = function(colorVal, styleVal) {
 
     // console.log("in d3Example");
@@ -215,9 +217,12 @@ BEERVIZ = (function(){
         console.log("DEED: ");
         console.log(classes);
         karma = JSON.parse(JSON.stringify(classes));
+        relation = JSON.parse(JSON.stringify(relations));
         // karma = jQuery.extend(true, {}, classes);
         console.log("KARMA: ");
         console.log(karma);
+        console.log("RELATION: ");
+        console.log(relation);
 
 	nodes = cluster.nodes(packages.root(classes));
 	links = packages.imports(relations, nodes);
@@ -325,8 +330,14 @@ BEERVIZ = (function(){
                 label.selectAll(".tmpline")
                   .remove();
 
-                source = sourceNode;
-                target = relatedNode;
+                if (sourceNode.id[0] == "x") {
+                  source = sourceNode;
+                  target = relatedNode;
+                } else {
+                  source = relatedNode;
+                  target = sourceNode;
+                }
+
                 if (relatedNode != null){
                   label.select("#text" + relatedNode.id)
 	            .attr("font-size", function(d,i){
@@ -865,15 +876,9 @@ BEERVIZ = (function(){
     console.log(sourceNode);
     console.log(targetNode);
 
-    $(function () {
-      $("#toggle-one").change(function () {
-        console.log("hello world");
-      });
-    });
+    // if sourceNode.id and targetNode.id has a relation
 
-    var toggleRelation = function () {
-      console.log("toggleRelation");
-    };
+
 
     bootbox.dialog({
 
