@@ -1,9 +1,15 @@
 // the toggle relation in relationEditBox
 
 console.log("in toggle.js");
+// console.log(on_or_off);
+// console.log(relation);
 
 $(function(){
-  $("#toggle-one").bootstrapToggle();
+  if ($(this).prop('checked') == true) {
+    displayRelation();
+  } else {
+    concealRelation();
+  }
 });
 
 
@@ -11,12 +17,20 @@ $(function(){
 $(function () {
   $("#toggle-one").change(function () {
     console.log("hello world");
+    displayRelation();
     if($(this).prop('checked') == true) {
-      $("#relation_exp").html("it's the exponent");
-      $("#relation_demo").html("the demo of the relation");
-    } else {
-      $("#relation_exp").html("");
-      $("#relation_demo").html("");
-    }
+     } else {
+       concealRelation();
+   }
   });
 });
+
+function displayRelation () {
+  $("#relation_exp").html("it's the exponent");
+  $("#relation_demo").html("the demo of the relation");
+}
+
+function concealRelation () {
+  $("#relation_exp").html("");
+  $("#relation_demo").html("");
+}

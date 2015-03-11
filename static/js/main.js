@@ -876,14 +876,38 @@ BEERVIZ = (function(){
     console.log(sourceNode);
     console.log(targetNode);
 
-    // if sourceNode.id and targetNode.id has a relation
 
+    // if sourceNode.id and targetNode.id has a relation
+    var hasRelation = function (sourceNode_id, targetNode_id) {
+
+      var rel = false;
+
+      for (i in relation) {
+        if ((relation[i].input == sourceNode_id) && (relation[i].output == targetNode_id)) {
+          rel = true;
+          break;
+        }
+      }
+
+      return rel;
+
+    };
+
+    var scr = '<script>$("#toggle-one").bootstrapToggle(';
+    if ( hasRelation(sourceNode.id, targetNode.id) ) {
+      scr += '"on"';
+    } else {
+      scr += '"off"';
+    }
+    scr += ')</script>';
 
 
     bootbox.dialog({
 
       title: sourceNode.version.word + " -- " + targetNode.version.word,
-      message: '<div> 相关性： <input id="toggle-one" checked type="checkbox" onclick="toggleRelation()"><div id="relation_exp"></div><div id="relation_demo"></div>' +
+      message: '<div> 相关性： <input id="toggle-one" checked type="checkbox"><div id="relation_exp"></div><div id="relation_demo"></div>' +
+        //'<script>$("#toggle-one").bootstrapToggle(' + on_or_off + ');</script>' +
+        scr +
         '<script src="js/toggle.js"></script>' +
         '</div>',
 
