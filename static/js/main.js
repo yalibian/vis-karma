@@ -865,10 +865,22 @@ BEERVIZ = (function(){
     console.log(sourceNode);
     console.log(targetNode);
 
+    $(function () {
+      $("#toggle-one").change(function () {
+        console.log("hello world");
+      });
+    });
+
+    var toggleRelation = function () {
+      console.log("toggleRelation");
+    };
+
     bootbox.dialog({
 
       title: sourceNode.version.word + " -- " + targetNode.version.word,
-      message: '<div> <input id="toggle-one" checked type="checkbox">Hello world<script>$(function(){$("#toggle-one").bootstrapToggle();})</script></div>',
+      message: '<div> 相关性： <input id="toggle-one" checked type="checkbox" onclick="toggleRelation()"><div id="relation_exp"></div><div id="relation_demo"></div>' +
+        '<script src="js/toggle.js"></script>' +
+        '</div>',
 
       //'<textarea id="karma-content" rows="15" cols="97">' + sourceNode.version.intro + '</textarea>',
 
