@@ -102,3 +102,7 @@
      添加删除关系
      关联系数： 正相关 负相关 程度
      examples： 可以添加 example
+
+   * 实现 relationEditBox 里面的 html 的设置，使得 数据可以进行编辑
+     expo 的系数的 text 设计
+     relation—demo 的text 设计。

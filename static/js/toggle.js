@@ -33,8 +33,9 @@ $(function () {
 });
 
 function displayRelation () {
-  $("#relation_exp").html("it's the exponent");
-  $("#relation_demo").html("the demo of the relation");
+
+  $("#relation_exp").html('相关系数 (1-10): <input type="number" name="points" min="1" max="10" />');
+  $("#relation_demo").html("因果实例： ");
 }
 
 function concealRelation () {
