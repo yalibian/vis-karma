@@ -2,6 +2,10 @@
 
 var BEERVIZ = BEERVIZ || {};
 
+var relation;
+var source_Id;
+var target_Id;
+
 BEERVIZ = (function(){
 
   var styleColors = [ 'fd78bd', 'a186be', '662d91', '5ea95c', 'ffdd00', '6dcff6', 'd74d94', '46142e', 'f26d7d', '5dbab9', '80bb42', 'cacec2', 'f1b867', '003663', 'f5989d', 'cd6f3c', '00a99d', '2e5a59', 'fff799', 'fbaf5d', '003663', '052a24', 'fff799', 'fbaf5d', '007236', 'aa71aa', 'bbbb42', '9ac2b9', '1d3b56', 'f26c4f', 'ee3224', 'fed42a', '82ca9c', 'aaa6ce', '455870', '0b6e5f', '00aeef', '448ccb', '7b0046', 'c4d9ec'];
@@ -135,7 +139,7 @@ BEERVIZ = (function(){
 
   // depend on input to choice which data to render the viz
   var karma; // represent the deed.json
-  var relation; // represent the relation.json
+  // var relation; // represent the relation.json
 
   var d3Example = function(colorVal, styleVal) {
 
@@ -875,7 +879,8 @@ BEERVIZ = (function(){
     console.log("in relationEditBox");
     console.log(sourceNode);
     console.log(targetNode);
-
+    source_Id = sourceNode.id;
+    target_Id = targetNode.id;
 
     // if sourceNode.id and targetNode.id has a relation
     var hasRelation = function (sourceNode_id, targetNode_id) {
@@ -905,7 +910,7 @@ BEERVIZ = (function(){
     bootbox.dialog({
 
       title: sourceNode.version.word + " -- " + targetNode.version.word,
-      message: '<div> 相关性： <input id="toggle-one" checked type="checkbox"><div id="relation_exp"></div><div id="relation_demo"></div>' +
+      message: '<div> 相关性： <input id="toggle-one" checked type="checkbox" targetId=' + targetNode.id + ' sourceId=' + sourceNode.id +'><div id="relation_exp"></div><div id="relation_demo"></div>' +
         //'<script>$("#toggle-one").bootstrapToggle(' + on_or_off + ');</script>' +
         scr +
         '<script src="js/toggle.js"></script>' +

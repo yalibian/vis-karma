@@ -3,9 +3,16 @@
 console.log("in toggle.js");
 // console.log(on_or_off);
 // console.log(relation);
+// console.log(source_Id);
+// console.log(target_Id);
+
+var sourceId = $("#toggle-one").attr('sourceId');
+var targetId = $("#toggle-one").attr('targetId');
 
 $(function(){
-  if ($(this).prop('checked') == true) {
+
+
+  if ($("#toggle-one").prop('checked') == true) {
     displayRelation();
   } else {
     concealRelation();
@@ -17,8 +24,8 @@ $(function(){
 $(function () {
   $("#toggle-one").change(function () {
     console.log("hello world");
-    displayRelation();
     if($(this).prop('checked') == true) {
+      displayRelation();
      } else {
        concealRelation();
    }
