@@ -912,7 +912,7 @@ BEERVIZ = (function(){
       title: sourceNode.version.word + " -- " + targetNode.version.word,
       message: '<div> 相关性： <input id="toggle-one" checked type="checkbox" targetId=' + targetNode.id + ' sourceId=' + sourceNode.id +'><div id="relation_exp"></div><div id="relation_demo"></div>' +
         //'<script>$("#toggle-one").bootstrapToggle(' + on_or_off + ');</script>' +
-        scr +
+//        scr +
         '<script src="js/toggle.js"></script>' +
         '</div>',
 
