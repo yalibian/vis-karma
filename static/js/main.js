@@ -218,21 +218,7 @@ BEERVIZ = (function(){
       d3.json(fileLink, function(error, relations) {
         //karma = classes;
         // deep copy classes
-        console.log("DEED: ");
-        console.log(classes);
-        karma = JSON.parse(JSON.stringify(classes));
-        relation = JSON.parse(JSON.stringify(relations));
-        // karma = jQuery.extend(true, {}, classes);
-        console.log("KARMA: ");
-        console.log(karma);
-        console.log("RELATION: ");
-        console.log(relation);
-
-	nodes = cluster.nodes(packages.root(classes));
-	links = packages.imports(relations, nodes);
-       	splines = bundle(links);
-
-
+        
         /* ---------------------------------CIRCLE DRAGGING---------------------------------
          BEGIN    */
 
@@ -282,12 +268,12 @@ BEERVIZ = (function(){
               })
               .on("drag", function(d) {
 
-                console.log("dragging");
+                // console.log("dragging");
 
                 var label_node = d3.select("#node-" + d.id);//.attr("__data__");
                 sourceNode = d3.select("#node-" + d.id).property("__data__");
 
-                console.log(draggingNode);
+                // console.log(draggingNode);
                 draggingNode.x += d3.event.dx;
                 draggingNode.y += d3.event.dy;
 
@@ -311,7 +297,7 @@ BEERVIZ = (function(){
               })
               .on("dragend", function(d){
 
-                console.log("dragend");
+                // console.log("dragend");
 
                 // put the movable circle back to its origin piont
                 d.point_x = 0;
@@ -322,7 +308,7 @@ BEERVIZ = (function(){
                 d3.select(this).attr("pointer-events", "");
 
                 // conceal the phantom circle
-                console.log(d3.select(".phantom_circle"));
+                // console.log(d3.select(".phantom_circle"));
                 d3.selectAll(".phantom_circle")
                   .attr("pointer-events", 'none');
 
@@ -367,6 +353,22 @@ BEERVIZ = (function(){
 
         /* ---------------------------------CIRCLE DRAGGING---------------------------------
       END    */
+
+        // console.log("DEED: ");
+        // console.log(classes);
+        karma = JSON.parse(JSON.stringify(classes));
+        relation = JSON.parse(JSON.stringify(relations));
+        // karma = jQuery.extend(true, {}, classes);
+
+
+        console.log("KARMA: ");
+        console.log(karma);
+        console.log("RELATION: ");
+        console.log(relation);
+
+	nodes = cluster.nodes(packages.root(classes));
+	links = packages.imports(relations, nodes);
+       	splines = bundle(links);
 
 
         // change the position of nodes
@@ -496,6 +498,127 @@ BEERVIZ = (function(){
 	  .text(function(d){
 	    return d.id;
 	  });
+
+        function renderLinks (data) {
+
+          // enter
+          d3.selectAll("path.link")
+            .data(data)
+            .enter()
+            .append("svg:path")
+	    .attr("class", function(d) {
+              return "link source-" + d.source.id + " target-" + d.target.id;
+            })
+	    .attr("stroke", function(d,i){
+	      // console.log("style value", d.style_color, "line:", d.source.style_color);
+	      return '#' + styleColors[d.source.style_color - 1];
+	    })
+	    .attr("d", function(d, i) {
+              return line(splines[i]);
+            });
+
+          // Update
+          d3.selectAll("path.link")
+            .data(data);
+
+          // Delete
+          d3.selectAll("path.link")
+            .data(data)
+            .exit()
+            .remove();
+
+        }
+
+
+        function relationEditbox(sourceNode, targetNode) {
+
+          console.log("in relationEditBox");
+
+          bootbox.dialog({
+
+            title: sourceNode.version.word + " -- " + targetNode.version.word,
+            message: '<div> 相关性： <input id="toggle-one" checked type="checkbox" targetId=' + targetNode.id + ' sourceId=' + sourceNode.id +'><div id="relation_exp"></div><div id="relation_demo"></div>' +
+              '<script src="js/toggle.js"></script>' +
+              '</div>',
+
+
+            buttons: {
+              save: {
+                label: "Save",
+                className: "btn-success",
+                callback: function() {
+
+                  console.log("In relationEditBox Save ...");
+
+                  var relationNode = {input:"x-1-1", output: "y-1-1", coefficient:1, case:"it's a good story." };
+                  updateRelation (relationNode);
+
+                  /*
+                  console.log("-----------------");
+                  console.log(classes);
+                  console.log(relations);
+                  console.log(links);
+
+                  console.log("-----------------");
+                   */
+                  console.log(relations);
+                  console.log(relation);
+                  // relations = JSON.parse(JSON.stringify(relation));
+                  classes = JSON.parse(JSON.stringify(karma));
+
+	          nodes = cluster.nodes(packages.root(classes));
+	          links = packages.imports(relations, nodes);
+
+                  // console.log(classes);
+                  // console.log(relations);
+                  // console.log(links);
+                  // console.log("-----------------");
+
+       	          splines = bundle(links);
+                  console.log("after splines-----------------");
+
+                  // renderLinks (links);
+
+                  // ajax and send back to web-server.
+
+                  /*
+                   // send karma to backend servlet: set-karma
+                   var karma_json = JSON.stringify(karma);
+                   $.ajax({
+                   type: "POST",
+                   //type: "GET",
+                   url:"/set-karma",
+                   data:karma_json,
+                   contentType: "application/json; charset=utf-8",
+                   dataType: "json",
+                   success: function(data){
+                   //console.log("yes it's from set-karma response");
+                   alert(data);
+                   },
+                   failure: function(errMsg){
+                   //console.log("no, it's error. but from set-karma response.");
+                   alert(errMsg);
+                   }
+                   }).success(function(data, testStatus, jqXHR) {
+                   });
+
+                   // change d
+                   d.version.intro = $('#karma-content').val();
+                   */
+                }
+              },
+
+              cancel: {
+                label: "Cancel",
+                className: "btn-danger",
+                callback: function() {
+                  console.log("do not save karma content");
+                }
+              }
+            }
+          });
+        }
+
 
 
       });
@@ -874,93 +997,22 @@ BEERVIZ = (function(){
   }
 
 
-  function relationEditbox(sourceNode, targetNode) {
-
-    console.log("in relationEditBox");
-    console.log(sourceNode);
-    console.log(targetNode);
-    source_Id = sourceNode.id;
-    target_Id = targetNode.id;
-
-    // if sourceNode.id and targetNode.id has a relation
-    var hasRelation = function (sourceNode_id, targetNode_id) {
-
-      var rel = false;
-
-      for (i in relation) {
-        if ((relation[i].input == sourceNode_id) && (relation[i].output == targetNode_id)) {
-          rel = true;
-          break;
-        }
+  function updateRelation (relationNode) {
+    console.log("relationNode: ");
+    console.log(relationNode);
+    var hasRelation = false;
+    for (i in relation) {
+      if ((relation[i].input == relationNode.input) && (relation[i].output == relationNode.output)) {
+        relation[i].coefficient = relationNode.coefficient;
+        relation[i].case = relationNode.case;
+        hasRelation = true;
+        break;
       }
-
-      return rel;
-
-    };
-
-    var scr = '<script>$("#toggle-one").bootstrapToggle(';
-    if ( hasRelation(sourceNode.id, targetNode.id) ) {
-      scr += '"on"';
-    } else {
-      scr += '"off"';
     }
-    scr += ')</script>';
-
-
-    bootbox.dialog({
-
-      title: sourceNode.version.word + " -- " + targetNode.version.word,
-      message: '<div> 相关性： <input id="toggle-one" checked type="checkbox" targetId=' + targetNode.id + ' sourceId=' + sourceNode.id +'><div id="relation_exp"></div><div id="relation_demo"></div>' +
-        //'<script>$("#toggle-one").bootstrapToggle(' + on_or_off + ');</script>' +
-//        scr +
-        '<script src="js/toggle.js"></script>' +
-        '</div>',
-
-      //'<textarea id="karma-content" rows="15" cols="97">' + sourceNode.version.intro + '</textarea>',
-
-      buttons: {
-        save: {
-          label: "Save",
-          className: "btn-success",
-          callback: function() {
-            /*
-            // send karma to backend servlet: set-karma
-            var karma_json = JSON.stringify(karma);
-            $.ajax({
-              type: "POST",
-              //type: "GET",
-              url:"/set-karma",
-              data:karma_json,
-              contentType: "application/json; charset=utf-8",
-              dataType: "json",
-              success: function(data){
-                //console.log("yes it's from set-karma response");
-                alert(data);
-              },
-              failure: function(errMsg){
-                //console.log("no, it's error. but from set-karma response.");
-                alert(errMsg);
-              }
-            }).success(function(data, testStatus, jqXHR) {
-            });
-
-            // change d
-            d.version.intro = $('#karma-content').val();
-             */
-          }
-        },
-
-        cancel: {
-          label: "Cancel",
-          className: "btn-danger",
-          callback: function() {
-            console.log("do not save karma content");
-          }
-        }
-      }
-    });
+    if (hasRelation == false) {
+      relation.push({input: relationNode.input, output: relationNode.output, coefficient: relationNode.coefficient, case: relationNode.case});
+    }
   }
-
 
 
   return {

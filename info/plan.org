@@ -106,3 +106,8 @@
    * 实现 relationEditBox 里面的 html 的设置，使得 数据可以进行编辑
      expo 的系数的 text 设计
      relation—demo 的text 设计。
+
+   * 对于 relation.json 的修改传递
+     relation 和 karma 不同在于，relation可以添加和删除某个 relationNode，在 main.js 中，设置一个 updateRelation 函数，用来更新，relation，然后将这个relation 更新 links.
+     对于 relation 的更新，需要重新 links， 也就是需要重新 设计一个 全局的render，来进行 render links。
+     看来问题原因是： relation 格式不正确。
