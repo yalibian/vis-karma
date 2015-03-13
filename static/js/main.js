@@ -241,12 +241,7 @@ var line = d3.svg.line.radial()
         relation = JSON.parse(JSON.stringify(relations));
         // karma = jQuery.extend(true, {}, classes);
 
-
-        console.log("KARMA: ");
-        console.log(karma);
-        console.log("RELATION: ");
-        console.log(relation);
-
+        /*
 	nodes = cluster.nodes(packages.root(classes));
 	links = packages.imports(relations, nodes);
        	splines = bundle(links);
@@ -269,29 +264,44 @@ var line = d3.svg.line.radial()
             d.x = d.x - 360;
           }
         });
-
-        // console.log("nodes : ");
-        // console.log(nodes);
-
-        // draw paths on sketch
-        renderLinks(links);
-        renderNodes(nodes);
-        /*
-	var path = svg.selectAll("path.link")
-              .data(links)
-	      .enter()
-              .append("svg:path")
-	      .attr("class", function(d) {
-                return "link source-" + d.source.id + " target-" + d.target.id;
-              })
-	      .attr("stroke", function(d,i){
-	      	// console.log("style value", d.style_color, "line:", d.source.style_color);
-	      	return '#' + styleColors[d.source.style_color - 1];
-	      })
-	      .attr("d", function(d, i) {
-                return line(splines[i]);
-              });
          */
+
+        render(karma, relation);
+        // draw paths on sketch
+        // renderLinks(links);
+        // renderNodes(nodes);
+
+        function render(karma, relation) {
+
+          var classes = JSON.parse (JSON.stringify(karma));
+          var relations = JSON.parse (JSON.stringify(relation));
+
+          nodes = cluster.nodes(packages.root(classes));
+	  links = packages.imports(relations, nodes);
+       	  splines = bundle(links);
+
+          // change the position of nodes
+          var x_tmp = 0;
+          for (var i=0; i<nodes.length; i++) {
+            if (nodes[i].id === "x-2-3"){
+              x_tmp += nodes[i].x;
+              break;
+            } else if (nodes[i].id === "x-2-2") {
+              x_tmp += nodes[i].x;
+            }
+          }
+          x_tmp = x_tmp / 2;
+          nodes.forEach(function (d) {
+            d.x = 270 + d.x - x_tmp;
+            if (d.x > 360) {
+              d.x = d.x - 360;
+            }
+          });
+
+          renderNodes(nodes);
+          renderLinks(links);
+        }
+
         function renderNodes (nodes) {
 
           /* ---------------------------------CIRCLE DRAGGING---------------------------------
