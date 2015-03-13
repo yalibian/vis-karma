@@ -232,44 +232,12 @@ var line = d3.svg.line.radial()
     d3.json(fileNode, function(error, classes) {
       //console.log("-------------hello world----------------");
       d3.json(fileLink, function(error, relations) {
-        //karma = classes;
-        // deep copy classes
 
-        // console.log("DEED: ");
-        // console.log(classes);
         karma = JSON.parse(JSON.stringify(classes));
         relation = JSON.parse(JSON.stringify(relations));
-        // karma = jQuery.extend(true, {}, classes);
-
-        /*
-	nodes = cluster.nodes(packages.root(classes));
-	links = packages.imports(relations, nodes);
-       	splines = bundle(links);
-
-
-        // change the position of nodes
-        var x_tmp = 0;
-        for (var i=0; i<nodes.length; i++) {
-          if (nodes[i].id === "x-2-3"){
-            x_tmp += nodes[i].x;
-            break;
-          } else if (nodes[i].id === "x-2-2") {
-            x_tmp += nodes[i].x;
-          }
-        }
-        x_tmp = x_tmp / 2;
-        nodes.forEach(function (d) {
-          d.x = 270 + d.x - x_tmp;
-          if (d.x > 360) {
-            d.x = d.x - 360;
-          }
-        });
-         */
 
         render(karma, relation);
-        // draw paths on sketch
-        // renderLinks(links);
-        // renderNodes(nodes);
+
 
         function render(karma, relation) {
 
@@ -306,7 +274,6 @@ var line = d3.svg.line.radial()
 
           /* ---------------------------------CIRCLE DRAGGING---------------------------------
            BEGIN    */
-
           var relatedNode = null;
           var draggingNode = null;
           var sourceNode = null;
@@ -383,11 +350,6 @@ var line = d3.svg.line.radial()
                   node.attr( { cx: d.point_x, cy: d.point_y } );
 
                   d3.select(this).attr("pointer-events", "");
-
-                  // conceal the phantom circle
-                  // console.log(d3.select(".phantom_circle"));
-                  d3.selectAll(".phantom_circle")
-                    .attr("pointer-events", 'none');
 
                   draggingNode = {x:0, y:0};
                   // now restore the mouseover event or we won't be able to drag a 2nd time
@@ -613,57 +575,34 @@ var line = d3.svg.line.radial()
                     console.log("in Off");
                     deleteRelation (sourceNode.id, targetNode.id);
                   }
-                  ;
 
-                  console.log(relations);
-                  console.log(relation);
-
-                  var bundle = d3.layout.bundle();
-
-                  relations = JSON.parse(JSON.stringify(relation));
-                  classes = JSON.parse(JSON.stringify(karma));
-
-	          nodes = cluster.nodes(packages.root(classes));
-	          links = packages.imports(relations, nodes);
-
-                  // console.log(classes);
-                  // console.log(relations);
-                  // console.log(links);
-                  // console.log("-----------------");
-
-       	          splines = bundle(links);
-                  console.log("after splines-----------------");
 
                   render(karma, relation);
 
-                  // renderLinks (links);
 
                   // ajax and send back to web-server.
 
-                  /*
                    // send karma to backend servlet: set-karma
-                   var karma_json = JSON.stringify(karma);
+                   var relation_json = JSON.stringify(relation);
                    $.ajax({
-                   type: "POST",
-                   //type: "GET",
-                   url:"/set-karma",
-                   data:karma_json,
-                   contentType: "application/json; charset=utf-8",
-                   dataType: "json",
-                   success: function(data){
-                   //console.log("yes it's from set-karma response");
-                   alert(data);
-                   },
-                   failure: function(errMsg){
-                   //console.log("no, it's error. but from set-karma response.");
-                   alert(errMsg);
-                   }
-                   }).success(function(data, testStatus, jqXHR) {
-                   });
+                     type: "POST",
+                     //type: "GET",
+                     url: "/set-relation",
+                     data: relation_json,
+                     contentType: "application/json; charset=utf-8",
+                     dataType: "json",
+                     success: function(data){
+                       //console.log("yes it's from set-karma response");
+                       alert(data);
+                     },
+                     failure: function(errMsg){
+                       //console.log("no, it's error. but from set-karma response.");
+                       alert(errMsg);
+                     }
+                   })
+                    .success(function(data, testStatus, jqXHR) {
+                    });
 
-                   // change d
-                   d.version.intro = $('#karma-content').val();
-                   */
                 }
               },
 

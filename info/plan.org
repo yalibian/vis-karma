@@ -120,3 +120,7 @@
 
      * 原因，应该是，只更新了 link， 没有更新 node：
        毕竟bundle 改变的时候，link 和 node 都发生了改变，如果update links，而没有顾及 nodes，就会使得 links 和 nodes 没有对应吧。
+       果然是这个问题，现在已经解决这个问题。
+
+4. relation.json karma.json 数据的迁移
+   现在，已经通过 racket 将 static sjon数据 提供前端get，而ajax set的是另外一个 data中的数据，如果将数据进行修改，需要车还是以下，ajax 修改后的数据，是否能够，重新获取使用。

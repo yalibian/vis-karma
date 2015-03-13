@@ -39,12 +39,8 @@
 
 (define relation-path (build-path (current-directory) "data/relation.json"))
 
-;(define RELATION (read-json-from-file relation-path))
-
-
-;(define (update-relation js-expr)
-;  (set! RELATION js-expr)
-;  (write-json-to-file relation-path RELATION))
+(define (update-relation js-expr)
+  (write-json-to-file relation-path js-expr))
 
 
 
@@ -52,8 +48,6 @@
 ;; karma
 ;;--------------------------------------------------------------;;
 
-;(define karma-path "data/karma.json")
-; test the karma.json
 (define karma-path (build-path (current-directory) "data/karma-test.json"))
 
 (define (update-karma js-expr)

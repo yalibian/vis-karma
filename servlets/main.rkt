@@ -24,7 +24,7 @@
 ; Setup request handlers for various URLs
 (define-values (servlet-dispatch servlet-url)
   (dispatch-rules
-   [("set-relation") set-relation]
+   [("set-relation") #:method "post" set-relation]
    [("set-karma") #:method "post" set-karma]))
 
 ; 每个 http 请求 都会经过这里，static的也一样
@@ -35,9 +35,16 @@
 
 ; update relation.json
 (define (set-relation request)
-  (display "set-relation")
-  'test-now)
+  (update-relation (bytes->jsexpr (request-post-data/raw request)))
+  (okay-response))
 
+
+(define (okay-response)
+  (response/full 200 #"OK"
+                 (current-seconds)
+                 TEXT/HTML-MIME-TYPE
+                 empty
+                 (list #"<html><body>Success: SET-RELATION</body></html>")))
 
 ; update karma.json
 (define (set-karma request)
