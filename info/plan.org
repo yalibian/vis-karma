@@ -111,3 +111,12 @@
      relation 和 karma 不同在于，relation可以添加和删除某个 relationNode，在 main.js 中，设置一个 updateRelation 函数，用来更新，relation，然后将这个relation 更新 links.
      对于 relation 的更新，需要重新 links， 也就是需要重新 设计一个 全局的render，来进行 render links。
      看来问题原因是： relation 格式不正确。
+
+   * 一直出现 links 的线条位置 和 node 不对应
+     出错的原因： 可能是 links 和 node 没有对应，links 位置对了 node位置错误
+     二： 本来就是 path link 有问题。
+     添加的 path 有问题，而删除时 node 显示有问题。 可能都是 relation 引起的
+     先解决添加 path 路径的问题吧。: 添加的 路径，好像位置，正好 transform 360 就正好了。
+
+     * 原因，应该是，只更新了 link， 没有更新 node：
+       毕竟bundle 改变的时候，link 和 node 都发生了改变，如果update links，而没有顾及 nodes，就会使得 links 和 nodes 没有对应吧。

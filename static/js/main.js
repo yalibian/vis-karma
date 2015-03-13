@@ -141,7 +141,20 @@ BEERVIZ = (function(){
   var karma; // represent the deed.json
   // var relation; // represent the relation.json
 
-  var d3Example = function(colorVal, styleVal) {
+    function strDiff(a, b) {
+      var temp = {};
+      var len_a = a.length,
+          len_b = b.length;
+      len_max = 5,
+      len_min = len_a < len_b ? len_a : len_b;
+
+      for (var i=0; i < len_min; i++) {
+        if (a[i] != b[i]) {
+          return len_max - i;
+        }
+      }
+      return len_max - len_min;
+    }
 
     // console.log("in d3Example");
     // console.log("color Value:", colorVal, "style Value:", styleVal);
@@ -168,15 +181,12 @@ BEERVIZ = (function(){
 
 	    var i = strDiff(a.id, b.id);
             //console.log(i);
-            var i = Math.pow(2, i);
+            i = Math.pow(2, i);
             return i;
-
-            //return a.parent == b.parent ? 1 : 10;
           });
 
     var bundle = d3.layout.bundle();
-
-    var line = d3.svg.line.radial()
+var line = d3.svg.line.radial()
 	  .interpolate("bundle")
 	  .tension(.85)
 	  .radius(function(d) {
@@ -186,7 +196,13 @@ BEERVIZ = (function(){
 	    return d.x / 180 * Math.PI;
 	  });
 
-    jQuery('#wrapper-viz').html('');
+
+
+  var d3Example = function(colorVal, styleVal) {
+
+
+        jQuery('#wrapper-viz').html('');
+
     var div = d3.select("#wrapper-viz");
 
     var svg = div.append("svg:svg")
@@ -218,141 +234,6 @@ BEERVIZ = (function(){
       d3.json(fileLink, function(error, relations) {
         //karma = classes;
         // deep copy classes
-        
-        /* ---------------------------------CIRCLE DRAGGING---------------------------------
-         BEGIN    */
-
-        var relatedNode = null;
-        var draggingNode = null;
-        var sourceNode = null;
-        var draggingNode_x = 0, draggingNode_y = 0;
-
-        var overRelatedNode = function (d) {
-          if (sourceNode != null && (d.id != sourceNode.id) && (d.id[0] != sourceNode.id[0])) {
-            console.log("in overRelatedNode");
-            relatedNode = d;
-
-            // expand the text font size of this test
-	    label.select("#text" + d.id)
-	      .attr("font-size", function(d,i){
-	        textSize = 2.4;
-	        return textSize + 'em';
-	      });
-
-
-          }
-          // relatedNode = d;
-        };
-
-        var outRelatedNode = function (d) {
-
-          if (relatedNode != null){
-            label.select("#text" + relatedNode.id)
-	      .attr("font-size", function(d,i){
-	        textSize = 1.2;
-	        return textSize + 'em';
-	      });
-
-            relatedNode = null;
-          }
-        };
-
-        var circleDragger = d3.behavior.drag()
-              .on("dragstart", function(d){
-                console.log("drag-start");
-                sourceNode = d;
-                draggingNode = {x: 0, y: 0};
-
-                d3.select(this).attr( 'pointer-events', 'none' );
-
-              })
-              .on("drag", function(d) {
-
-                // console.log("dragging");
-
-                var label_node = d3.select("#node-" + d.id);//.attr("__data__");
-                sourceNode = d3.select("#node-" + d.id).property("__data__");
-
-                // console.log(draggingNode);
-                draggingNode.x += d3.event.dx;
-                draggingNode.y += d3.event.dy;
-
-                d3.select(this)
-                  .attr("pointer-events", "none");
-
-                // display lines from sourceNode to mouse
-                 // link: sourceNode to draggingNode
-
-                var label_source = d3.select("#node-" + sourceNode.id);
-                label.selectAll(".tmpline")
-                  .remove();
-                label_source.append("svg:line")
-                  .attr("class", "sourcelink tmpline line")
-                  .attr("pointer-events", "none")
-                  .attr("x1", 0)
-                  .attr("y1", 0)
-                  .attr("x2", draggingNode.x)
-                  .attr("y2", draggingNode.y);
-
-              })
-              .on("dragend", function(d){
-
-                // console.log("dragend");
-
-                // put the movable circle back to its origin piont
-                d.point_x = 0;
-                d.point_y = 0;
-                var node = d3.select(this);
-                node.attr( { cx: d.point_x, cy: d.point_y } );
-
-                d3.select(this).attr("pointer-events", "");
-
-                // conceal the phantom circle
-                // console.log(d3.select(".phantom_circle"));
-                d3.selectAll(".phantom_circle")
-                  .attr("pointer-events", 'none');
-
-                draggingNode = {x:0, y:0};
-                // now restore the mouseover event or we won't be able to drag a 2nd time
-                d3.select(this).attr( 'pointer-events', '' );
-                // return the node to the orign localte.
-
-                label.selectAll(".tmpline")
-                  .remove();
-
-                if (sourceNode.id[0] == "x") {
-                  source = sourceNode;
-                  target = relatedNode;
-                } else {
-                  source = relatedNode;
-                  target = sourceNode;
-                }
-
-                if (relatedNode != null){
-                  label.select("#text" + relatedNode.id)
-	            .attr("font-size", function(d,i){
-	              textSize = 1.2;
-	              return textSize + 'em';
-	            });
-
-                  relatedNode = null;
-                }
-
-                sourceNode = null;
-                draggingNode = null;
-                relatedNode = null;
-
-                if (target != null) {
-                  //
-                  console.log("yes, message box");
-                  relationEditbox(source, target);
-                }
-
-              });
-
-
-        /* ---------------------------------CIRCLE DRAGGING---------------------------------
-      END    */
 
         // console.log("DEED: ");
         // console.log(classes);
@@ -392,6 +273,10 @@ BEERVIZ = (function(){
         // console.log("nodes : ");
         // console.log(nodes);
 
+        // draw paths on sketch
+        renderLinks(links);
+        renderNodes(nodes);
+        /*
 	var path = svg.selectAll("path.link")
               .data(links)
 	      .enter()
@@ -406,103 +291,256 @@ BEERVIZ = (function(){
 	      .attr("d", function(d, i) {
                 return line(splines[i]);
               });
+         */
+        function renderNodes (nodes) {
 
-	var label = svg.selectAll("g.node")
-	      .data(nodes.filter(function(n) {
-                //console.log("g.node - d: ");
-                // console.log(n);
-                return !n.children;
-                //return true;
-              }))
-	      .enter()
-              .append("svg:g")
-              .attr("class", function(d){
-                if(d.id[0] == "x"){
-                  return "node input-x";
-                } else {
-                  return "node output-y";
-                }
-              })
-	      .attr("id", function(d) {
-                return "node-" + d.id;
-              })
-	      .attr("transform", function(d) {
-                return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
-              });
+          /* ---------------------------------CIRCLE DRAGGING---------------------------------
+           BEGIN    */
+
+          var relatedNode = null;
+          var draggingNode = null;
+          var sourceNode = null;
+          var draggingNode_x = 0, draggingNode_y = 0;
+
+          var overRelatedNode = function (d) {
+            if (sourceNode != null && (d.id != sourceNode.id) && (d.id[0] != sourceNode.id[0])) {
+              console.log("in overRelatedNode");
+              relatedNode = d;
+
+              // expand the text font size of this test
+	      label.select("#text" + d.id)
+	        .attr("font-size", function(d,i){
+	          textSize = 2.4;
+	          return textSize + 'em';
+	        });
+            }
+            // relatedNode = d;
+          };
+
+          var outRelatedNode = function (d) {
+
+            if (relatedNode != null){
+              label.select("#text" + relatedNode.id)
+	        .attr("font-size", function(d,i){
+	          textSize = 1.2;
+	          return textSize + 'em';
+	        });
+
+              relatedNode = null;
+            }
+          };
+
+          var circleDragger = d3.behavior.drag()
+                .on("dragstart", function(d){
+                  console.log("drag-start");
+                  sourceNode = d;
+                  draggingNode = {x: 0, y: 0};
+
+                  d3.select(this).attr( 'pointer-events', 'none' );
+                })
+                .on("drag", function(d) {
+
+                  var label_node = d3.select("#node-" + d.id);//.attr("__data__");
+                  sourceNode = d3.select("#node-" + d.id).property("__data__");
+
+                  // console.log(draggingNode);
+                  draggingNode.x += d3.event.dx;
+                  draggingNode.y += d3.event.dy;
+
+                  d3.select(this)
+                    .attr("pointer-events", "none");
+
+                  // display lines from sourceNode to mouse
+                  // link: sourceNode to draggingNode
+
+                  var label_source = d3.select("#node-" + sourceNode.id);
+                  label.selectAll(".tmpline")
+                    .remove();
+                  label_source.append("svg:line")
+                    .attr("class", "sourcelink tmpline line")
+                    .attr("pointer-events", "none")
+                    .attr("x1", 0)
+                    .attr("y1", 0)
+                    .attr("x2", draggingNode.x)
+                    .attr("y2", draggingNode.y);
+                })
+                .on("dragend", function(d){
+
+                  // put the movable circle back to its origin piont
+                  d.point_x = 0;
+                  d.point_y = 0;
+                  var node = d3.select(this);
+                  node.attr( { cx: d.point_x, cy: d.point_y } );
+
+                  d3.select(this).attr("pointer-events", "");
+
+                  // conceal the phantom circle
+                  // console.log(d3.select(".phantom_circle"));
+                  d3.selectAll(".phantom_circle")
+                    .attr("pointer-events", 'none');
+
+                  draggingNode = {x:0, y:0};
+                  // now restore the mouseover event or we won't be able to drag a 2nd time
+                  d3.select(this).attr( 'pointer-events', '' );
+                  // return the node to the orign localte.
+
+                  label.selectAll(".tmpline")
+                    .remove();
+
+                  if (sourceNode.id[0] == "x") {
+                    source = sourceNode;
+                    target = relatedNode;
+                  } else {
+                    source = relatedNode;
+                    target = sourceNode;
+                  }
+
+                  if (relatedNode != null){
+                    label.select("#text" + relatedNode.id)
+	              .attr("font-size", function(d,i){
+	                textSize = 1.2;
+	                return textSize + 'em';
+	              });
+
+                    relatedNode = null;
+                  }
+
+                  sourceNode = null;
+                  draggingNode = null;
+                  relatedNode = null;
+
+                  if (target != null) {
+                    //
+                    console.log("yes, message box");
+                    relationEditbox(source, target);
+                  }
+
+                });
+          /* ---------------------------------CIRCLE DRAGGING---------------------------------
+           END    */
 
 
-	label.append("circle")
-	  .attr("cx", 0)
-	  .attr("cy", 0)
-	  .attr("fill", function(d,i){
-	    return '#' + styleColors[d.style_color - 1];
-	  })
-          .attr("class", "karma_circle")
-	  .attr("opacity", 1.0)
-	  .attr("r", function(d,i) {
-	    //return Math.round(Math.pow(d.size, 1/3));
-	    return Math.round(Math.pow(250, 1/3));
-	  })
-          .on("mouseover", overRelatedNode)
-	  .on("mouseout", outRelatedNode)
-         .call(circleDragger);
+ 
+	  var label = svg.selectAll("g.node")
+	        .data(nodes.filter(function(n) {
+                  //console.log("g.node - d: ");
+                  // console.log(n);
+                  return !n.children;
+                  //return true;
+                }))
+	        .enter()
+                .append("svg:g")
+                .attr("class", function(d){
+                  if(d.id[0] == "x"){
+                    return "node input-x";
+                  } else {
+                    return "node output-y";
+                  }
+                })
+	        .attr("id", function(d) {
+                  return "node-" + d.id;
+                })
+	        .attr("transform", function(d) {
+                  return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
+                });
 
-	label.append("svg:text")
-          .attr("id", function (d) {
-            return "text" + d.id;
-          })
-	  .attr("dx", function(d) {
-            return d.x < 180 ? 30 : -30;
-          })
-	  .attr("dy", "0.31em")
-	  .attr("font-size", function(d,i){
-	    // console.log("font-size", d.size);
 
-	    // var textSize = 1 + (d.size/1000);
-	    textSize = 1.2;
-	    return textSize + 'em';
-	  })
-	  .attr("fill", function(d,i){
+	  label.append("circle")
+	    .attr("cx", 0)
+	    .attr("cy", 0)
+	    .attr("fill", function(d,i){
+	      return '#' + styleColors[d.style_color - 1];
+	    })
+            .attr("class", "karma_circle")
+	    .attr("opacity", 1.0)
+	    .attr("r", function(d,i) {
+	      //return Math.round(Math.pow(d.size, 1/3));
+	      return Math.round(Math.pow(250, 1/3));
+	    })
+            .on("mouseover", overRelatedNode)
+	    .on("mouseout", outRelatedNode)
+            .call(circleDragger);
 
-	    return '#' + styleColors[d.style_color - 1];
-	  })
-	  .attr("beerid", function(d,i){
-	    return d.id;
-	  })
-	  .attr("text-anchor", function(d) {
-            return d.x < 180 ? "start" : "end";
-          })
-	  .attr("transform", function(d) {
-            return d.x < 180 ? null : "rotate(180)";
-          })
-	  .text(function(d) {
+	  label.append("svg:text")
+            .attr("id", function (d) {
+              return "text" + d.id;
+            })
+	    .attr("dx", function(d) {
+              return d.x < 180 ? 30 : -30;
+            })
+	    .attr("dy", "0.31em")
+	    .attr("font-size", function(d,i){
+	      // console.log("font-size", d.size);
 
-	    var beerName = d.name;
+	      // var textSize = 1 + (d.size/1000);
+	      textSize = 1.2;
+	      return textSize + 'em';
+	    })
+	    .attr("fill", function(d,i){
 
-	    if(beerName.length > 20){
-	      beerName = d.name.slice(0, 19);
-	      beerName = beerName + '...';
-	    }
+	      return '#' + styleColors[d.style_color - 1];
+	    })
+	    .attr("beerid", function(d,i){
+	      return d.id;
+	    })
+	    .attr("text-anchor", function(d) {
+              return d.x < 180 ? "start" : "end";
+            })
+	    .attr("transform", function(d) {
+              return d.x < 180 ? null : "rotate(180)";
+            })
+	    .text(function(d) {
 
-	    return beerName;
-	  })
-	  .on("mouseover", function(d,i) {
+	      var beerName = d.name;
 
-            // change the intro detail
-	    // loadData(d.id);
-	    mouseover(d,i);
-	  })
-	  .on("mouseout", mouseout)
-          .on("click", clickOnCircle)
-	  .append("svg:title")
-	  .text(function(d){
-	    return d.id;
-	  });
+	      if(beerName.length > 20){
+	        beerName = d.name.slice(0, 19);
+	        beerName = beerName + '...';
+	      }
+
+	      return beerName;
+	    })
+	    .on("mouseover", function(d,i) {
+
+              // change the intro detail
+	      // loadData(d.id);
+	      mouseover(d,i);
+	    })
+	    .on("mouseout", mouseout)
+            .on("click", clickOnCircle)
+	    .append("svg:title")
+	    .text(function(d){
+	      return d.id;
+	    });
+
+
+
+
+        }
 
         function renderLinks (data) {
 
+          console.log("in renderLinks");
+          console.log(data);
+
+          svg.selectAll("path.link")
+            .remove();
+
+
+          var line = d3.svg.line.radial()
+	        .interpolate("bundle")
+	        .tension(.85)
+	        .radius(function(d) {
+	          return d.y;
+	        })
+	        .angle(function(d) {
+	          // return d.x / 180 * Math.PI;
+	          return d.x / 180 * Math.PI;
+	        });
+
+
           // enter
-          d3.selectAll("path.link")
+          svg.selectAll("path.link")
             .data(data)
             .enter()
             .append("svg:path")
@@ -518,11 +556,12 @@ BEERVIZ = (function(){
             });
 
           // Update
-          d3.selectAll("path.link")
+          svg.selectAll("path.link")
             .data(data);
+          console.log(svg.selectAll("path.link"));
 
           // Delete
-          d3.selectAll("path.link")
+          svg.selectAll("path.link")
             .data(data)
             .exit()
             .remove();
@@ -550,20 +589,28 @@ BEERVIZ = (function(){
 
                   console.log("In relationEditBox Save ...");
 
-                  var relationNode = {input:"x-1-1", output: "y-1-1", coefficient:1, case:"it's a good story." };
-                  updateRelation (relationNode);
+                  // var style = "add";
+                  if ($("#toggle-one").prop('checked')) {
+                    console.log("in On");
+                    console.log($("#relation_exp_value"));
+                    var relationNode = { input: sourceNode.id,
+                                         output: targetNode.id,
+                                         coefficient: parseInt($("#relation_exp_value").val()),
+                                         case: $("#relation_case_value").val() };
 
-                  /*
-                  console.log("-----------------");
-                  console.log(classes);
-                  console.log(relations);
-                  console.log(links);
+                    updateRelation (relationNode);
+                  } else {
+                    console.log("in Off");
+                    deleteRelation (sourceNode.id, targetNode.id);
+                  }
+                  ;
 
-                  console.log("-----------------");
-                   */
                   console.log(relations);
                   console.log(relation);
-                  // relations = JSON.parse(JSON.stringify(relation));
+
+                  var bundle = d3.layout.bundle();
+
+                  relations = JSON.parse(JSON.stringify(relation));
                   classes = JSON.parse(JSON.stringify(karma));
 
 	          nodes = cluster.nodes(packages.root(classes));
@@ -577,7 +624,7 @@ BEERVIZ = (function(){
        	          splines = bundle(links);
                   console.log("after splines-----------------");
 
-                  // renderLinks (links);
+                  renderLinks (links);
 
                   // ajax and send back to web-server.
 
@@ -628,21 +675,6 @@ BEERVIZ = (function(){
     // d3.select(window)
     //     .on("mousemove", mousemove)
     //     .on("mouseup", mouseup);
-
-    function strDiff(a, b) {
-      var temp = {};
-      var len_a = a.length,
-          len_b = b.length;
-      len_max = 5,
-      len_min = len_a < len_b ? len_a : len_b;
-
-      for (var i=0; i < len_min; i++) {
-        if (a[i] != b[i]) {
-          return len_max - i;
-        }
-      }
-      return len_max - len_min;
-    }
 
     function mouse(e) {
       return [e.pageX - rx, e.pageY - ry];
@@ -1014,6 +1046,13 @@ BEERVIZ = (function(){
     }
   }
 
+  function deleteRelation (sourceId, targetId) {
+    for (i in relation) {
+      if ((relation[i].input == sourceId) && (relation[i].output == targetId)) {
+        relation.splice(i,1);
+      }
+    }
+  }
 
   return {
     'init' : init,
