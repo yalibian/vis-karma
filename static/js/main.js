@@ -634,7 +634,9 @@ var line = d3.svg.line.radial()
        	          splines = bundle(links);
                   console.log("after splines-----------------");
 
-                  renderLinks (links);
+                  render(karma, relation);
+
+                  // renderLinks (links);
 
                   // ajax and send back to web-server.
 
