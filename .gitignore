@@ -1,6 +1,7 @@
 #
 
 servlets/compiled/*
+static/data/*
 !.gitignore
 !*.rkt
 !*.js

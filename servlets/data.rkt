@@ -37,7 +37,7 @@
 ;; relation
 ;;--------------------------------------------------------------;;
 
-(define relation-path (build-path (current-directory) "data/relation.json"))
+(define relation-path (build-path (current-directory) "static/data/relation.json"))
 
 (define (update-relation js-expr)
   (write-json-to-file relation-path js-expr))
@@ -48,7 +48,7 @@
 ;; karma
 ;;--------------------------------------------------------------;;
 
-(define karma-path (build-path (current-directory) "data/karma-test.json"))
+(define karma-path (build-path (current-directory) "static/data/karma.json"))
 
 (define (update-karma js-expr)
   (newline)
