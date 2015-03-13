@@ -10,7 +10,8 @@
                #:stateless? #t
                #:port 9999
                #:extra-files-paths (list (build-path (current-directory) "static")
-                                         (build-path (current-directory) "static/css"))
+                                         ;(build-path (current-directory) "static/css")
+                                         )
                ;#:extra-files-paths (list (build-path "~/code/racket/karma-vis/static"))
                #:servlet-regexp #rx""
                )

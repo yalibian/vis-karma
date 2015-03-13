@@ -200,8 +200,7 @@ var line = d3.svg.line.radial()
 
   var d3Example = function(colorVal, styleVal) {
 
-
-        jQuery('#wrapper-viz').html('');
+    jQuery('#wrapper-viz').html('');
 
     var div = d3.select("#wrapper-viz");
 
@@ -221,17 +220,14 @@ var line = d3.svg.line.radial()
 	   )
       .on("mousedown", mousedown);
 
-    fileNode = 'data/deed.json';
-    fileLink = 'data/relation.json';
-
-    // console.log(fileNode, fileLink);
-
-
-
+    fileNode = 'data/karma.json' + "?" + Math.floor(Math.random() * 1000);
+    fileLink = 'data/relation.json' + "?" + Math.floor(Math.random() * 1000);
 
     d3.json(fileNode, function(error, classes) {
       //console.log("-------------hello world----------------");
       d3.json(fileLink, function(error, relations) {
+
+        console.log(relations);
 
         karma = JSON.parse(JSON.stringify(classes));
         relation = JSON.parse(JSON.stringify(relations));
