@@ -388,7 +388,7 @@ var line = d3.svg.line.radial()
            END    */
 
 
- 
+
 	  var label = svg.selectAll("g.node")
 	        .data(nodes.filter(function(n) {
                   //console.log("g.node - d: ");
@@ -544,7 +544,15 @@ var line = d3.svg.line.radial()
           bootbox.dialog({
 
             title: sourceNode.version.word + " -- " + targetNode.version.word,
-            message: '<div> 相关性： <input id="toggle-one" checked type="checkbox" targetId=' + targetNode.id + ' sourceId=' + sourceNode.id +'><div id="relation_exp"></div><div id="relation_demo"></div>' +
+            message: '<div> 相关性： <input id="toggle-one" checked type="checkbox" targetId=' + targetNode.id + ' sourceId=' + sourceNode.id +'>' +
+              '<br />' +
+              '<br />' +
+              '<div id="relation_exp"></div>' +
+              '<br />' +
+              '<br />' +
+              '<div id="relation_demo"></div>' +
+              '<br />' +
+              '<br />' +
               '<script src="js/toggle.js"></script>' +
               '</div>',
 
