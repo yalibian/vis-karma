@@ -1,37 +1,12 @@
 [
     {
-        "output": "y-2-1",
-        "input": "x-1-1",
-        "ralation": 1
-    },
-    {
         "output": "y-1-1",
         "input": "x-1-1",
         "ralation": 1
     },
     {
-        "output": "y-3-1",
-        "input": "x-1-1",
-        "ralation": 1
-    },
-    {
-        "output": "y-2-1",
-        "input": "x-1-2",
-        "relation": 1
-    },
-    {
         "output": "y-1-2",
         "input": "x-1-2",
-        "relation": 1
-    },
-    {
-        "output": "y-3-1",
-        "input": "x-1-2",
-        "relation": 1
-    },
-    {
-        "output": "y-2-1",
-        "input": "x-1-3",
         "relation": 1
     },
     {
@@ -40,28 +15,8 @@
         "relation": 1
     },
     {
-        "output": "y-3-1",
-        "input": "x-1-3",
-        "relation": 1
-    },
-    {
-        "output": "y-2-1",
-        "input": "x-2-1",
-        "relation": 1
-    },
-    {
         "output": "y-1-4",
         "input": "x-2-1",
-        "relation": 1
-    },
-    {
-        "output": "y-3-1",
-        "input": "x-2-1",
-        "relation": 1
-    },
-    {
-        "output": "y-2-1",
-        "input": "x-2-2",
         "relation": 1
     },
     {
@@ -70,28 +25,8 @@
         "relation": 1
     },
     {
-        "output": "y-3-1",
-        "input": "x-2-2",
-        "relation": 1
-    },
-    {
-        "output": "y-2-1",
-        "input": "x-2-3",
-        "relation": 1
-    },
-    {
         "output": "y-1-6",
         "input": "x-2-3",
-        "relation": 1
-    },
-    {
-        "output": "y-3-1",
-        "input": "x-2-3",
-        "relation": 1
-    },
-    {
-        "output": "y-2-1",
-        "input": "x-2-4",
         "relation": 1
     },
     {
@@ -100,28 +35,8 @@
         "relation": 1
     },
     {
-        "output": "y-3-1",
-        "input": "x-2-4",
-        "relation": 1
-    },
-    {
-        "output": "y-2-1",
-        "input": "x-3-1",
-        "relation": 1
-    },
-    {
         "output": "y-1-8",
         "input": "x-3-1",
-        "relation": 1
-    },
-    {
-        "output": "y-3-1",
-        "input": "x-3-1",
-        "relation": 1
-    },
-    {
-        "output": "y-2-1",
-        "input": "x-3-2",
         "relation": 1
     },
     {
@@ -130,35 +45,58 @@
         "relation": 1
     },
     {
-        "output": "y-3-1",
-        "input": "x-3-2",
-        "relation": 1
-    },
-    {
-        "output": "y-3-1",
-        "input": "x-3-3",
-        "relation": 1
-    },
-    {
         "output": "y-1-10",
         "input": "x-3-3",
         "relation": 1
     },
     {
-        "output": "y-2-1",
-        "input": "x-3-3",
+        "output": "y-3-1",
+        "input": "x-1-1",
+        "ralation": 1
+    },
+    {
+        "output": "y-3-2",
+        "input": "x-1-2",
         "relation": 1
     },
     {
-        "case": "",
-        "output": "y-2-3",
-        "input": "x-3-3",
-        "coefficient": null
+        "output": "y-3-3",
+        "input": "x-1-3",
+        "relation": 1
     },
     {
-        "case": "",
-        "output": "y-2-3",
+        "output": "y-3-4",
+        "input": "x-2-1",
+        "relation": 1
+    },
+    {
+        "output": "y-3-5",
+        "input": "x-2-2",
+        "relation": 1
+    },
+    {
+        "output": "y-3-6",
+        "input": "x-2-3",
+        "relation": 1
+    },
+    {
+        "output": "y-3-7",
+        "input": "x-2-4",
+        "relation": 1
+    },
+    {
+        "output": "y-3-8",
         "input": "x-3-1",
-        "coefficient": 1
+        "relation": 1
+    },
+    {
+        "output": "y-3-9",
+        "input": "x-3-2",
+        "relation": 1
+    },
+    {
+        "output": "y-3-10",
+        "input": "x-3-3",
+        "relation": 1
     }
 ]

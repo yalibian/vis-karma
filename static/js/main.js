@@ -242,6 +242,19 @@ BEERVIZ = (function () {
 
                     console.log(nodes);
                     nodes.forEach(function (d){
+                        if (d.id === "y-1-1"){
+                            console.log(d.id + ": " + d.x);
+                            d.x = 192.1621621621621;
+                        }
+                        if (d.id === "y-1-2"){
+                            console.log(d.id + ": " + d.x);
+                        }
+                        if (d.id === "y-1-3"){
+                            console.log(d.id + ": " + d.x);
+                        }
+                        if (d.id === "y-1-4"){
+                            console.log(d.id + ": " + d.x);
+                        }
                         if (d.id === "y-1-7"){
                             console.log(d.id + ": " + d.x);
                         }
@@ -257,6 +270,19 @@ BEERVIZ = (function () {
                             d.x = 235.94594594594594;
                         }
 
+                         if (d.id === "y-3-1"){
+                            console.log(d.id + ": " + d.x);
+                             d.x = 282.16216216216213;
+                         }
+                         if (d.id === "y-3-2"){
+                            console.log(d.id + ": " + d.x);
+                         }
+                         if (d.id === "y-3-3"){
+                            console.log(d.id + ": " + d.x);
+                         }
+                         if (d.id === "y-3-4"){
+                            console.log(d.id + ": " + d.x);
+                         }
                         if (d.id === "y-3-7"){
                             console.log(d.id + ": " + d.x);
                         }
