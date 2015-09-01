@@ -31,7 +31,11 @@
                     //displat good deed
                     //change sum deed into good deed.
                     var deed_tmp = classes[i];
-                    deed_tmp.version = classes[i].version[0];
+                    deed_tmp.version = classes[i].good;
+                    deed_tmp.name = classes[i].good.name;
+                    console.log(deed_tmp);
+
+                    //deed_tmp.version = classes[i].version[0];
                     //console.log(deed_tmp);
                     filteredClasses.push(deed_tmp);
 
@@ -65,7 +69,9 @@
                     console.log("in bad deed");
                     //bad deed
                     var deed_tmp = classes[i];
-                    deed_tmp.version = classes[i].version[1];
+                    //deed_tmp.version = classes[i].version[1];
+                    deed_tmp.version = classes[i].bad;
+                    deed_tmp.name = classes[i].bad.name;
                     //console.log(deed_tmp);
                     filteredClasses.push(deed_tmp);
 
