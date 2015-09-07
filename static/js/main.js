@@ -6,6 +6,9 @@ var relation;
 var source_Id;
 var target_Id;
 
+var mouseOnCause;
+
+
 BEERVIZ = (function () {
 
     var styleColors = ['fd78bd', 'a186be', '662d91', '5ea95c', 'ffdd00', '6dcff6', 'd74d94', '46142e', 'f26d7d', '5dbab9', '80bb42', 'cacec2', 'f1b867', '003663', 'f5989d', 'cd6f3c', '00a99d', '2e5a59', 'fff799', 'fbaf5d', '003663', '052a24', 'fff799', 'fbaf5d', '007236', 'aa71aa', 'bbbb42', '9ac2b9', '1d3b56', 'f26c4f', 'ee3224', 'fed42a', '82ca9c', 'aaa6ce', '455870', '0b6e5f', '00aeef', '448ccb', '7b0046', 'c4d9ec'];
@@ -779,12 +782,12 @@ BEERVIZ = (function () {
             //the mouse on input node or output node
             if (d.id[0] === 'x') {
 
+                mouseOnCause = "Cause";
                 infobox(d);
 
                 links.forEach(function (dd) {
 
                     if (dd.source.id === d.id) {
-
                         infobox(dd.target);
                     }
                 });
@@ -794,6 +797,8 @@ BEERVIZ = (function () {
             } else {
 
                 // console.log("output node");
+
+                mouseOnCause = "Effect";
 
                 infobox(d);
 
@@ -920,7 +925,17 @@ BEERVIZ = (function () {
         }
 
 
-        var elements = '<aside class="infobox" id="infobox-' + d.id + '" ><div class="infobox-name"><h3>' + d.version.word + '</h3></div><ul class="infobox-keyword"></ul><div class="infobox-intro">' + intro + '</div></aside>';
+        var elements = '<aside class="infobox" id="infobox-' + d.id + '" ><div class="infobox-name"><h3>' + d.version.word + '</h2></div><ul class="infobox-keyword"></ul><div class="infobox-intro">' + intro + '</div></aside>';
+
+        if(mouseOnCause==="Cause" && d.id === "y-2-3"){
+            console.log(d);
+            if(d.version.word === "下品:人"){
+                var elements = '<aside class="infobox" id="infobox-' + d.id + '" ><div class="infobox-name"><h3>' + "上品:上二界"+ "<br><br>" + "中品:欲界天" + "<br><br>" + "下品:人" + '</h2></div><ul class="infobox-keyword"></ul><div class="infobox-intro">' + intro + '</div></aside>';
+            } else {
+                var elements = '<aside class="infobox" id="infobox-' + d.id + '" ><div class="infobox-name"><h3>' + "上品:地狱"+ "<br><br>" + "中品:饿鬼" + "<br><br>" + "下品:旁生" + '</h2></div><ul class="infobox-keyword"></ul><div class="infobox-intro">' + intro + '</div></aside>';
+            }
+        }
+
 
         category.append(elements);
         //console.log(d.id);
