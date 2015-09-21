@@ -15,24 +15,26 @@ The main view is based on [[https://github.com/mbostock/d3/wiki/Bundle-Layout][B
 
 * Usage
 
-  The demo is as follows: The left side nodes are input "causes", the right sides nodes are output "effects", just like general functions:
+  The main view of the system is as follows:
+
   [[./org/demo-1.png]]
-  When click the text, you can modify the information of the input or output nodes.
 
-  When move the mouse on words such as "邪见", links between the node "邪见" and effects nodes emerge, which show the cause and it's effects, and more information will appear at the info-box in left or right side.
+  The left side nodes are input "causes", the right sides nodes are output "effects", just like general functions. You can have the following interactive operations on the elements of the view:
 
-  You can drag one input node to a output node, to add, delete or modify the relationship between the input "cause" and output "effect".
+  + When click the text, you can modify the information of the input or output nodes.
+  + When move the mouse on words such as "邪见", links between the node "邪见" and effects nodes emerge, which show the cause and it's effects, and more information will appear at the info-box in left or right side.
+  + You can drag one input node to a output node, to add, delete or modify the relationship between the input "cause" and output "effect".
 
 * Build
 
   If you want to build this system on your own pc, you should:
+
   + Download [[www.racket-lang.org][DrRacket]] from racket-lang
   + Install DrRacket
   + Download this repo
   + open file "run.rkt" in this repo using GrRacket
   + Click "Run" on Top Right of GrRacket
   + Open "http://localhost:9999" in your Browser (Like Chrome, Firfox, or Safari).
-
 
 * License
 
