@@ -34,13 +34,13 @@ BEERVIZ = (function () {
 
     };
 
-    $("#list-credit").click(function () {
-        $("#wrapper-credit").slideToggle("slow");
-    });
-
-    $(".close").click(function () {
-        $("#wrapper-credit").slideToggle("slow");
-    });
+    //$("#list-credit").click(function () {
+    //    $("#wrapper-credit").slideToggle("slow");
+    //});
+    //
+    //$(".close").click(function () {
+    //    $("#wrapper-credit").slideToggle("slow");
+    //});
 
     function loadData(id) {
 
@@ -1128,4 +1128,20 @@ BEERVIZ = (function () {
 jQuery(document).ready(function () {
 
     BEERVIZ.init();
+
+    //jQuery('#list-usePref li').click();
+    jQuery('#good-deed').click();
+    //triggerViz (styleVal);
+    //d3Example(userBeerType, styleVal);
+
+        //jQuery('.context-viz').show();
+        //jQuery('#wrapper-viz').fadeIn(4000);
+    //jQuery('#list-usePref li').click(function () {
+    //
+    //        resetClass(jQuery(this), 'active');
+    //        jQuery(this).addClass('active');
+    //        // console.log("colorSelector: ",colorSelector);
+    //        triggerViz(styleVal);
+    //
+    //    });
 });
