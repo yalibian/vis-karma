@@ -63,7 +63,7 @@ function displayRelation () {
     $("#relation_exp_value").attr("value", relationNode.coefficient);
   }
 
-  $("#relation_demo").html('因果实例： <textarea id="relation_case_value" rows="15" cols="97">' + '</textarea>');
+  $("#relation_demo").html('因果实例： <textarea id="relation_case_value" rows="15" cols="91">' + '</textarea>');
 
   if (relationStatus && (relationNode.case != null)) {
     $("#relation_case_value").val(relationNode.case);

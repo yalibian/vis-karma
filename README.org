@@ -9,9 +9,11 @@ The main view is based on [[https://github.com/mbostock/d3/wiki/Bundle-Layout][B
 
 * Demo
 
-  There are two demos of this system, the [[http://www.lisp.one/vis/karma][one with a backend]] and [[http://karma.lisp.one][one without backend]].
-  The first one can store the changes of the input, output nodes, and their relationships on the bakend database.
-  The second one, on the other hand, is used for expression for everyone, so no one can change the basic informations that the system has, though you can change it instantly.
+  You can test the visualization system through [[http://www.yalibian.com/vis/karma][this demo]], however the backend functions such as saving the modified relationships are not provided in this demo.
+
+  If you want to explore all the functions of this visualization system, you can install, build and use it yourself.
+
+  There is a [[http://www.yalibian.com/data/vis-karma.mov][video]], to display the view and all the interactions of this system.
 
 * Usage
 
@@ -23,9 +25,9 @@ The main view is based on [[https://github.com/mbostock/d3/wiki/Bundle-Layout][B
 
   + When click the text, you can modify the information of the input or output nodes.
   + When move the mouse on words such as "邪见", links between the node "邪见" and effects nodes emerge, which show the cause and it's effects, and more information will appear at the info-box in left or right side.
-  + You can drag one input node to a output node, to add, delete or modify the relationship between the input "cause" and output "effect".
+  + You can drag one input node to a output node, to add, delete or modify the relationship between the input "cause" and output "effect". (drawing a input-node to another input-node is forbidden)
 
-* Build
+* Install
 
   If you want to build this system on your own pc, you should:
 
@@ -34,8 +36,8 @@ The main view is based on [[https://github.com/mbostock/d3/wiki/Bundle-Layout][B
   + Download this repo
   + open file "run.rkt" in this repo using GrRacket
   + Click "Run" on Top Right of GrRacket
-  + Open "http://localhost:9999" in your Browser (Like Chrome, Firfox, or Safari).
+  + Open "http://localhost:8080" in your Browser (Like Chrome, Firfox, or Safari).
 
 * License
 
-  MIT license (© 2015 Yali Bian)
+  MIT license (© 2014-2015 Yali Bian)

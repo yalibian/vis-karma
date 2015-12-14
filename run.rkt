@@ -8,7 +8,7 @@
 ;               #:launch-brower? #t
                #:command-line? #t
                #:stateless? #t
-               #:port 9999
+               #:port 8080
                #:extra-files-paths (list (build-path (current-directory) "static")
                                          ;(build-path (current-directory) "static/css")
                                          )

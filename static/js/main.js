@@ -1002,7 +1002,7 @@ BEERVIZ = (function () {
             //message: "<form><input type='text' value="+d.version.intro+"></form>",
             // change massage into text
             // message: d.version.intro,
-            message: '<textarea id="karma-content" rows="15" cols="97">' + d.version.intro + '</textarea>',
+            message: '<textarea id="karma-content" rows="15" cols="91">' + d.version.intro + '</textarea>',
 
             buttons: {
                 save: {
