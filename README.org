@@ -19,7 +19,7 @@ The main view is based on [[https://github.com/mbostock/d3/wiki/Bundle-Layout][B
 
   The main view of the system is as follows:
 
-  [[./org/demo-1.png]]
+  [[./sources/img/demo-1.png]]
 
   The left side nodes are input "causes", the right sides nodes are output "effects", just like general functions. You can have the following interactive operations on the elements of the view:
 
