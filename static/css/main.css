@@ -507,6 +507,14 @@ h1{
 ** MODULE Category
 ** Section :: User Preference
 ****************************************/
+
+#search{
+  float:left;
+  /*width:100%;*/
+  padding:0.5em 0;
+  background:#f4f4f4;
+}
+
 #usePref{
   float:left;
   width:100%;
@@ -535,7 +543,7 @@ h1{
         float:right;
         margin:0 1em 0 0;
         padding:0.25em;
-        font-size:1.25em;
+        font-size:1.8em;
         font-family: 'OpenSans Light', sans-serif;
         /*color:#ccc; */
       }
@@ -732,7 +740,7 @@ h1{
     border-radius:15px;
     padding:10px;
     position:absolute;
-    top: 120px;
+    top: 70px;
 }
 
 
