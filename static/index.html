@@ -1,167 +1,258 @@
 <!DOCTYPE html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>因果可视化</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>因果可视化</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
 
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/rickshaw.css">
-  <link rel="stylesheet" href="css/rickshaw.min.css">
-  <link rel="stylesheet" href="css/vis.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/rickshaw.css">
+    <!--<link rel="stylesheet" href="css/rickshaw.min.css">-->
+    <link rel="stylesheet" href="css/vis.css">
+    <link rel="stylesheet" href="css/login.css">
 
-  <link rel="stylesheet" href="css/bootstrap-toggle.css">
+    <link rel="stylesheet" href="css/bootstrap-toggle.css">
 
-  <script src="js/libs/jquery-1.9.1.min.js"></script>
+    <script src="js/libs/jquery-1.9.1.min.js"></script>
 
-  <script src="js/libs/bootstrap.js"></script>
-  <script src="js/libs/modernizr-2.6.2.min.js"></script>
+    <script src="js/libs/bootstrap.js"></script>
+    <script src="js/libs/modernizr-2.6.2.min.js"></script>
 
-
-  <script src="js/libs/bootbox.min.js"></script>
-  <script src="js/libs/bootstrap-toggle.js"></script>
-  <script src="js/libs/d3.js"></script>
-  <script src="js/libs/highcharts.js"></script>
-  <script src="js/libs/exporting.js"></script>
+    <script src="js/libs/bootbox.min.js"></script>
+    <script src="js/libs/bootstrap-toggle.js"></script>
+    <script src="js/libs/d3.js"></script>
+    <script src="js/libs/highcharts.js"></script>
+    <script src="js/libs/exporting.js"></script>
 
 
 </head>
 
 <body>
-  <!-- h1>Test - in Static</h1 -->
-  <!-- Add your site or application content here -->
 
-  <!-- Title / about / Credits -->
-  <header>
+<header>
     <div class="wrapper-page">
-      <!-- beer viz logo here -->
-      <p>Vis-Karma | 因果可视化</p>
-      <nav>
-        <ul>
-            <li id="lust-about"><a href="https://github.com/bianyali/vis-karma/blob/master/README.org" target="_blank">About</a></li>
-            <li id="github"><a href="https://www.github.com/bianyali/vis-karma" target="_blank">Github</a></li>
-            <li id="login"><a href="https://www.github.com/bianyali/vis-karma" target="_blank">Login</a></li>
-        </ul>
-      </nav>
+        <!-- beer viz logo here -->
+        <p>Vis-Karma | 因果可视化</p>
+        <nav>
+            <ul>
+                <li id="dashboard"><a href="./dashboard" target="_blank">dashboard</a></li>
+                <li id="lust-about"><a href="https://github.com/bianyali/vis-karma/blob/master/README.org"
+                                       target="_blank">About</a></li>
+                <li id="github"><a href="https://www.github.com/bianyali/vis-karma" target="_blank">Github</a></li>
+                <li id="login"><a href="https://www.github.com/bianyali/vis-karma" target="_blank">Login</a></li>
+            </ul>
+        </nav>
     </div>
 
-    <div id ="wrapper-credit">
+    <div id="wrapper-credit">
 
-      <h3>Our research and inspiration came from the following:</h3>
-      <p>Data</p>
+        <h3>Our research and inspiration came from the following:</h3>
+        <p>Data</p>
 
-      <p>Research</p>
+        <p>Research</p>
 
-      <p>Photo Credit</p>
+        <p>Photo Credit</p>
 
-      <p class="close"><a href="#">[Close]</a></p>
+        <p class="close"><a href="#">[Close]</a></p>
 
-   </div>
-  </header>
-
-
-  <!-- to know -->
-  <!-- input type="hidden" value="" id='beerType'-->
-
-
-  <!-- explore sililar beers by appeance/taste/aroma/overall  -->
-  <section id="usePref">
-    <div class="wrapper-page">
-      <article>
-        <h2>Explore Karma by:</h2>
-        <ul id="list-usePref">
-          <!-- li data-usePref="overall" class="active">Overall</li -->
-          <li data-usePref="good" id="good-deed">十白业道</li>
-          <li data-usePref="bad">十黑业道</li>
-        </ul>
-
-      </article>
     </div>
-  </section>
 
-  <!-- viz of beer -->
-  <section class="context-viz active" id="category">
+
+    <div class="login" tabindex="-1" role="dialog">
+        <div class="row"></div>
+        <div class="row modal show">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-login">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="#" class="active" id="login-form-link">Login</a>
+                            </div>
+                            <div class="col-xs-6">
+                                <a href="#" id="register-form-link">Register</a>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <!--<form id="login-form" action="login()" method="post" role="form"-->
+                                <form id="login-form" action=""  role="form"
+                                      style="display: block;">
+                                    <div class="form-group">
+                                        <input type="text" name="username" id="username" tabindex="1"
+                                               class="form-control"
+                                               placeholder="Username" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password" id="password" tabindex="2"
+                                               class="form-control" placeholder="Password">
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+                                        <label for="remember"> Remember Me</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="login-submit" id="login-submit" tabindex="4"
+                                                       class="form-control btn btn-login" value="Log In">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="text-center">
+                                                    <a href="http://phpoll.com/recover" tabindex="5"
+                                                       class="forgot-password">Forgot Password?</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form id="register-form" action="http://phpoll.com/register/process" method="post"
+                                      role="form" style="display: none;">
+                                    <div class="form-group">
+                                        <input type="text" name="username" id="username" tabindex="1"
+                                               class="form-control"
+                                               placeholder="Username" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" name="email" id="email" tabindex="1" class="form-control"
+                                               placeholder="Email Address" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password" id="password" tabindex="2"
+                                               class="form-control" placeholder="Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="confirm-password" id="confirm-password"
+                                               tabindex="2"
+                                               class="form-control" placeholder="Confirm Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="register-submit" id="register-submit"
+                                                       tabindex="4" class="form-control btn btn-register"
+                                                       value="Register Now">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+
+<!-- explore sililar beers by appeance/taste/aroma/overall  -->
+<section id="usePref">
+    <div class="wrapper-page">
+        <article>
+            <h2>Explore Karma by:</h2>
+            <ul id="list-usePref">
+                <!-- li data-usePref="overall" class="active">Overall</li -->
+                <li data-usePref="good" id="good-deed">十白业道</li>
+                <li data-usePref="bad">十黑业道</li>
+            </ul>
+
+        </article>
+    </div>
+</section>
+
+
+<!-- viz of beer -->
+<section class="context-viz active" id="category">
 
     <!-- div id="editbox">This is editbox</div -->
 
     <aside class="style" id="deed-style">
-      <div class="styleHead">
-        <h3>Deed Styles</h3>
-      </div>
-      <ul class="list-style">
-      </ul>
+        <div class="styleHead">
+            <h3>Deed Styles</h3>
+        </div>
+        <ul class="list-style">
+        </ul>
     </aside>
 
     <aside class="style" id="karma-style">
-      <div class="styleHead">
-        <h3>Karma Styles</h3>
-      </div>
-      <ul class="list-style">
-      </ul>
+        <div class="styleHead">
+            <h3>Karma Styles</h3>
+        </div>
+        <ul class="list-style">
+        </ul>
     </aside>
 
     <!-- deeds visualization using svg by d3 -->
     <div class="wrapper-page">
-      <article>
-	<div id="wrapper-viz">
-	</div>
-      </article>
+        <article>
+            <div id="wrapper-viz">
+            </div>
+        </article>
     </div>
 
-  </section>
+</section>
 
 
-  <!-- histogram plot / about the data -->
-  <!--
-  <section class="active" id="summary">
-    <article>
+<!-- histogram plot / about the data -->
+<!--
+<section class="active" id="summary">
+  <article>
 
-      <div id="wrapper-summary">
-        <h2>About the Data</h2>
-        <h3>Popularity and top beer styles are based on the number of users who rated the beer.</h3>
-        <ul id="summary-charts">
-          <li>
-            <div id="chart1"></div>
-          </li>
-          <li>
-            <div id="chart2"></div>
-          </li>
-          <li>
-            <div id="chart3"></div>
-          </li>
-          <li>
-            <div id="chart4"></div>
-          </li>
-          <li>
-            <div id="chart5"></div>
-          </li>
-        </ul>
-      </div>
+    <div id="wrapper-summary">
+      <h2>About the Data</h2>
+      <h3>Popularity and top beer styles are based on the number of users who rated the beer.</h3>
+      <ul id="summary-charts">
+        <li>
+          <div id="chart1"></div>
+        </li>
+        <li>
+          <div id="chart2"></div>
+        </li>
+        <li>
+          <div id="chart3"></div>
+        </li>
+        <li>
+          <div id="chart4"></div>
+        </li>
+        <li>
+          <div id="chart5"></div>
+        </li>
+      </ul>
+    </div>
 
-    </article>
+  </article>
 
-  </section>
+</section>
 
-   aout the author
-  <footer>
-    <h4>Handcrafted with <span class="icon-entypo">&hearts;</span> by:</h4>
-    <ul id="list-authors">
-      <li>
-        Bialy
-      </li>
-    </ul>
-  </footer>
+ aout the author
+<footer>
+  <h4>Handcrafted with <span class="icon-entypo">&hearts;</span> by:</h4>
+  <ul id="list-authors">
+    <li>
+      Bialy
+    </li>
+  </ul>
+</footer>
 
-  -->
+-->
 
-  <script src="js/packages.js"></script>
-  <script src="js/main.js"></script>
-  <!--<script src="js/summary.js"></script>-->
+<script src="js/packages.js"></script>
+<script src="js/main.js"></script>
+<script src="js/login.js"></script>
+<!--<script src="js/summary.js"></script>-->
 
 </body>
 </html>
